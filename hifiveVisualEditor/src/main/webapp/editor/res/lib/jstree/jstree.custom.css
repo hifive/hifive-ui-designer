@@ -1,0 +1,7 @@
+.jstree li {
+	line-height: 1.5em !important;
+}
+
+.jstree-default.jstree-focused {
+	background: rgba(255, 255, 255, 0.75)!important;
+}

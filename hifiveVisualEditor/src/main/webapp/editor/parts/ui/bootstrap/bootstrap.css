@@ -1,0 +1,22 @@
+@charset "utf-8";
+ul.nav-list li span{
+	display:none;
+}
+ul.nav-list li.nav-header a{
+	display:none;
+}
+ul.nav-list li.nav-header span{
+	display:inline;
+}
+ul.breadcrumb li span:not([class=divider]){
+	display:none;
+}
+ul.breadcrumb li.active a{
+	display:none;
+}
+ul.breadcrumb li.active span:not([class=divider]){
+	display:inline;
+}
+ul.breadcrumb li:nth-last-of-type(1) span.divider{
+	display:none;
+}

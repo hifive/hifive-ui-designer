@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EJS Template Editor</title>
+
+<link rel="stylesheet" href="res/lib/jstree/jstree.custom.css">
+
+<link rel="stylesheet" href="res/lib/bootstrap/css/bootstrap.css" media="screen">
+<link rel="stylesheet" href="res/lib/hifive/h5.css">
+
+<link rel="stylesheet" href="/hifiveUILibrary/components/DividedBox/src/DividedBox.css">
+
+
+<link rel="stylesheet" href="css/editor-external.css">
+
+
+<script src="res/lib/jquery/jquery-2.0.3.min.js"></script>
+<script src="res/lib/bootstrap/js/bootstrap.js"></script>
+
+<script src="res/lib/jstree/jquery.jstree.js"></script>
+
+
+<script src="res/lib/hifive/ejs-h5mod.js"></script>
+<script src="res/lib/hifive/h5.js"></script>
+
+<!--
+<script src="h5.debug.js"></script>
+ -->
+
+<script src="h5.ext.js"></script>
+
+
+
+<script src="src/hifive/editor/constants.js"></script>
+<script src="src/hifive/editor/u.js"></script>
+
+<script src="src/hifive/editor/_.js"></script>
+
+<script src="src/hifiveEditorServer.js"></script>
+
+<script>
+	h5.u.obj.ns('hifive.editor.settings').srcBase = '/hifiveVisualEditor/editor/src/';
+
+	h5.u.obj.ns('hifive.editor.settings').fileStoreBase = '/hifiveVisualEditor/storage/files/';
+	h5.u.obj.ns('hifive.editor.settings').pathAutoReload = '/hifiveVisualEditor/editor/data/js/autoreload.js';
+	h5.u.obj.ns('hifive.editor.settings').pathHandwritingController = '/hifiveVisualEditor/editor/src/hifive/editor/controller/HandwritingController.js';
+
+	h5.u.obj.ns('hifive.editor.settings').savePathBase = '/hifiveVisualEditor/storage/files/';
+
+
+	//JsBaseとCssBaseは同一でもよい
+	h5.u.obj.ns('hifive.editor.settings').libraryJsBase = '/hifiveVisualEditor/lib';
+	h5.u.obj.ns('hifive.editor.settings').libraryCssBase = '/hifiveVisualEditor/lib';
+
+	//h5.u.obj.ns('hifive.editor.settings').userLibraryJsBase = '/hifiveVisualEditor/lib';
+	//h5.u.obj.ns('hifive.editor.settings').userLibraryCssBase = '/hifiveVisualEditor/lib';
+
+
+	h5.ext.basePath = './src';
+	h5.core.controller.registerAlias('c', 'hifive.editor.controller');
+</script>
+
+<script
+	src="src/hifive/editor/controller/GenericParameterEditController.js"></script>
+
+<script src="src/hifive/editor/controller/ejs/PreviewController.js"></script>
+<script src="src/hifive/editor/controller/ejs/SourceEditorController.js"></script>
+<script src="src/hifive/editor/controller/ejs/TemplateEditController.js"></script>
+
+
+<script src="/hifiveUILibrary/components/DividedBox/src/DividedBox.js"></script>
+
+
+
+
+<!-- u.jsが必要 -->
+<script>
+	// 環境変数の設定
+	hifive.editor.u.setEnv('SYSTEM_LIB', '/hifiveVisualEditor/editor/lib');
+	// 	hifive.editor.u.setEnv('USER_LIB', '/hifiveVisualEditor/editor/lib');
+</script>
+
+<script src="parts/ui/ui.common.js"></script>
+<script src="parts/ui/base/base.js"></script>
+<script src="parts/ui/layout/layout.js"></script>
+<!-- <script src="parts/ui/hifive/components.js"></script> -->
+<!-- <script src="parts/ui/bootstrap/bootstrap.js"></script> -->
+<script src="parts/bootstrap3/bootstrap.js"></script>
+
+
+<script src="/quiz/res/src/common/util.js"></script>
+
+
+<script>
+	$(function() {
+		h5.core.controller('#ejsEditorRoot', hifive.editor.controller.ejs.TemplateEditController);
+
+
+		$('.dividedBox').each(function() {
+			h5.core.controller(this, h5.ui.container.DividedBox);
+		});
+
+
+		$(window).bind('resize', function() {
+			var dividedBoxes = h5.core.controllerManager.getControllers(document.body, {
+				name: 'h5.ui.container.DividedBox',
+				deep: true
+			});
+
+			for ( var i = 0, len = dividedBoxes.length; i < len; i++) {
+				dividedBoxes[i].refresh();
+			}
+		});
+
+	});
+</script>
+
+<style>
+html,body {
+	width: 100%;
+	height: 100%;
+	color: white;
+}
+
+.container {
+	width: 100%;
+}
+
+.sourceText,.dataText {
+	width: 100%;
+	height: 270px;
+}
+
+.sourceText {
+	margin: 5px 0;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	overflow: auto;
+	color: black;
+	background-color: white;
+}
+
+.templateApplicationRoot {
+	border: 1px solid blue;
+	background-color: white;
+	color: black;
+}
+
+.rootBox {
+	width: 100%;
+	height: 100%;
+}
+
+#ejsEditorRoot {
+	height: 100%;
+	overflow: auto;
+}
+
+.componentPalette {
+	width: 170px;
+	height: 100%;
+	overflow: auto;
+}
+
+.applyTemplateBtn {
+	margin-right: 10px;
+}
+
+.divider, .dividerHandler {
+	background-color: silver;
+}
+
+</style>
+
+</head>
+<body class='bg-carbon'>
+	<div class="rootBox dividedBox horizontal">
+
+		<div class="fill componentPalette" data-h5-controller="c:ComponentPaletteController"></div>
+
+
+		<div id="ejsEditorRoot" class="fill container">
+			<div>
+				<span class="templateIdText"></span>
+				<button class="btn btn-primary applyTemplateBtn">再適用</button>
+				<span class="statusMessage"></span>
+			</div>
+			<div class="row-fluid inputArea">
+				<div class="span12">
+					<h5>テンプレート文字列</h5>
+					<!-- FIXME pageWrapperがついてないとPaletteがドロップしない -->
+					<div class="sourceText pageWrapper">
+						<!-- contentEditable="true" -->
+					</div>
+				</div>
+			</div>
+
+`			<div class="row-fluid">
+				<h5>データオブジェクト(JSON形式)</h5>
+				<textarea class="span12 dataText"></textarea>
+			</div>
+		</div>
+
+<!--
+ 		<div class="row-fluid result">
+			<h5 class="span12">適用結果</h5>
+			<div class="span12 templateApplicationRoot"></div>
+		</div>
+ -->
+	</div>
+</body>
+</html>

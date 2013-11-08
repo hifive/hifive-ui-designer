@@ -1,0 +1,146 @@
+<html lang="ja">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet"
+	href="/hifiveVisualEditor/editor/res/lib/bootstrap/css/bootstrap.min.css"
+	media="screen" data-h5-module="bootstrap">
+
+<title>新規ページ</title>
+
+<script
+	src="/hifiveVisualEditor/editor/res/lib/jquery/jquery-1.9.1.min.js" data-h5-module="jquery"></script>
+<script
+	src="/hifiveVisualEditor/editor/res/lib/bootstrap/js/bootstrap.js" data-h5-module="bootstrap"></script>
+
+<script src="/hifiveVisualEditor/editor/res/lib/hifive/ejs-h5mod.js" data-h5-module="hifive:ejs"></script>
+<script src="/hifiveVisualEditor/editor/res/lib/hifive/h5.dev.js" data-h5-module="hifive"></script>
+
+<script type="text/ejs" id="testId">
+<div>TEST
+	TEST tab
+</div>
+</script>
+
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="span12">
+				<div class="page-header componentCell" data-cell-desc="ページヘッダ"
+					data-h5editor-component="bootstrap.pageheader.pageHeader"
+					style="margin-bottom: 0;">
+					<h1>
+						<span data-template-id="testId" data-json-url="../test.json">hifive Sample Applications</span> <small></small>
+					</h1>
+				</div>
+				<div class="navbar componentCell navbar-inverse"
+						data-cell-desc="ナビゲーションバー"
+						data-h5editor-component="bootstrap.nav.navbar">
+					<div class="navbar-inner">
+						<ul class="nav">
+							<li class="active"><a href="#">アプリ一覧</a></li>
+							<li><a href="#">特集</a></li>
+							<li><a href="#">ランキング</a></li>
+							<li><a href="#">カテゴリ別</a></li>
+							<li><a href="#">目的別</a></li>
+							<li><a href="#">詳細検索</a></li>
+							<li><a href="#">マイページ</a></li>
+							<li style="text-align:right; width:300px"><form class="form-search componentCell"
+									data-cell-desc="検索用フォーム"
+									data-h5editor-component="bootstrap.form.searchForm"
+									style="height: 0px; position: relative; top: 8px; display:inline-block">
+									<input type="text" class="input-medium search-query"
+										style="width: 200px;">
+									<button type="submit" class="btn-mini" style="margin-left:10px;background-color: rgb(240, 240, 240);">Search</button>
+								</form>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span3">
+				<ul class="nav nav-list componentCell" data-cell-desc="ナビゲーションリスト"
+							data-h5editor-component="bootstrap.nav.navLists">
+					<li class="nav-header"><span>対象分野</span></li>
+					<li class="active"><a href="#">一般(5)</a></li>
+					<li><a href="#">一般(営業)(1)</a></li>
+					<li><a href="#">ヘルスケア(2)</a></li>
+					<li><a href="#">BI(1)</a></li>
+					<li><a href="#">CRM(1)</a></li>
+					<li><a href="#">回覧板(1)</a></li>
+					<li><a href="#">巡回業務(2)</a></li>
+					<li><a href="#">コミュニケーション(2)</a></li>
+					<li><a href="#">ソースコードレビュー(1)</a></li>
+					<li><a href="#">ペーパーレス会議(1)</a></li>
+					<li><a href="#">金融(1)</a></li>
+					<li><a href="#">その他(未分類)(2)</a></li>
+					<li class="nav-header"><span>プラットフォーム</span></li>
+					<li><a href="#">Webアプリ(8)</a></li>
+					<li><a href="#">ネイティブアプリ(3)</a></li>
+					<li class="divider"></li>
+					<li><a href="#">MDM(2)</a></li>
+				</ul>
+			</div>
+			<div class="span9">
+				<div class="row">
+					<div class="media componentCell" data-cell-desc="メディアボックス"
+						data-h5editor-component="bootstrap.media.media">
+						<a class="pull-left" href="#" style="padding: 10px"><img
+							class="media-object"
+							src="/hifiveVisualEditor/editor/data/pageTemplates/sample_res/hifiveVisualEditor.png"
+							style="width: 180px;"></a>
+						<div class="media-body" style="padding: 10px">
+							<h4 class="media-heading">hifiveVisualEditor</h4>
+							<p>hifiveを使用したwysiwygエディタです。</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<dl class="componentCell" data-cell-desc="定義リスト(dl)" data-h5editor-component="base.list.description">
+						<dt>デモサイト</dt>
+						<dd>
+							<a href="/hifiveVisualEditor/editor">/hifiveVisualEditor/editor</a>
+						</dd>
+						<dt>詳細説明</dt>
+						<dd>ブラウザ上で動作するwysiwygエディタです。</dd>
+						<dt>主な機能</dt>
+						<dd>
+							<ul>
+								<li>ブラウザ上でのHTML作成</li>
+								<li>既存のページの編集機能</li>
+								<li>編集しながら他の端末(タブレット等)に反映される自動更新機能</li>
+								<li>CSSライブエディタ</li>
+							</ul>
+						</dd>
+					</dl>
+				</div>
+				<div class="row">
+					<div class="pagination componentCell pagination-centered"
+						data-cell-desc="ページ切り替え"
+						data-h5editor-component="bootstrap.nav.pagination">
+						<ul>
+							<li class="disabled"><a href="#">Prev</a></li>
+							<li class="active"><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li><a href="#">Next</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span12">
+				<div style="text-align: center;">Copyright (C) 2012-2013 NS Solutions Corporation, All Rights Reserved.</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="hifiveVisualEditor" basedir="." default="build">
+
+	<property name="encoding" value="utf-8" />
+	<property name="web-content.dir" value="src/main/webapp" />
+	<property name="build.dir" value="build" />
+	<property name="build.webapp.dir" value="${build.dir}/webapp" />
+	<property name="build.ui.dir" value="${build.webapp.dir}/ui/components" />
+	<property name="build.web-inf.dir" value="${build.webapp.dir}/WEB-INF" />
+	<property name="build.web-inf.classes" value="${build.web-inf.dir}/classes" />
+	<property name="build.lib.dir" value="${build.dir}/lib" />
+	<property name="server.dir" value="../hifiveEditorServer" />
+	<property name="server.lib" value="${server.dir}/lib" />
+	<property name="server.resources" value="${server.dir}/src/main/resources" />
+	<property name="server.build.xml" value="${server.dir}/build.xml" />
+	<property name="server.jar" value="${server.dir}/target/hifiveEditorServer.jar" />
+	<property name="ui.components.dir" value="../hifiveUILibrary/WebContent/components" />
+	<property name="editor.dir" value="${web-content.dir}/editor" />
+	<property name="editor.tmp" value="${web-content.dir}/tmp" />
+	<property name="editor.resources" value="src/main/resources" />
+	<property name="app.name" value="hifiveVisualEditor" />
+
+	<!-- UIのパスの置換用 -->
+	<property name="ui.components.path" value="/hifiveUILibrary/components" />
+	<property name="ui.components.editor.path" value="ui/components" />
+	<property name="pageTemplate.dir" value="${build.webapp.dir}/editor/data/pageTemplates" />
+
+	<!-- target -->
+
+	<target name="build" depends="copy, archive" />
+
+	<target name="init">
+		<!-- 必要なディレクトリを作成 -->
+		<mkdir dir="${build.lib.dir}" />
+		<mkdir dir="${build.webapp.dir}" />
+		<mkdir dir="${build.ui.dir}" />
+		<!-- エディタサーバをビルド -->
+		<ant antfile="${server.dir}/build.xml" target="build" inheritall="false" />
+	</target>
+
+	<target name="clean" depends="init">
+		<delete dir="${build.webapp.dir}" />
+		<delete file="${build.dir}/${app.name}.war" />
+		<delete dir="${build.lib.dir}" includes="*.jar" />
+		<delete dir="${lib.dir}" includes="*.jar" />
+	</target>
+
+	<target name="copy" depends="init, clean, server-build">
+		<copy todir="${build.webapp.dir}">
+			<fileset dir="${web-content.dir}" />
+		</copy>
+		<copy todir="${build.ui.dir}">
+			<fileset dir="${ui.components.dir}" />
+		</copy>
+		<copy todir="${build.lib.dir}">
+			<fileset dir="${server.lib}" includes="*.jar" />
+		</copy>
+		<!-- UIコンポーネントをコピー -->
+		<copy todir="${build.webapp.dir}/editor/ui/components">
+			<fileset dir="${ui.components.dir}" />
+		</copy>
+		<copy todir="${build.lib.dir}" file="${server.jar}" />
+		<!-- サーバ側のリソースをコピー -->
+		<copy todir="${build.web-inf.classes}" overwrite="true">
+			<fileset dir="${server.resources}" />
+		</copy>
+		<!-- エディタ側のリソースでサーバ側のリソースを上書き -->
+		<copy todir="${build.web-inf.classes}" overwrite="true">
+			<fileset dir="${editor.resources}" />
+		</copy>
+	</target>
+
+	<target name="path-replace">
+		<!-- index.html, pageTemplate/*.html中のuiコンポーネントのパスを書き換える -->
+		<replace file="${build.webapp.dir}/editor/index.html" token="${ui.components.path}" value="${ui.components.editor.path}" encoding="${encoding}" />
+		<replace file="${build.webapp.dir}/editor/ejseditor.html" token="${ui.components.path}" value="${ui.components.editor.path}" encoding="${encoding}" />
+		<replace dir="${pageTemplate.dir}" token="${ui.components.path}" value="${ui.components.editor.path}" encoding="${encoding}">
+			<include name="**/*.html" />
+		</replace>
+	</target>
+
+	<target name="server-build">
+		<ant antfile="${server.build.xml}" target="build" dir="${server.dir}" />
+	</target>
+
+	<target name="archive" depends="copy, path-replace">
+		<war destfile="${build.dir}/${app.name}.war" webxml="${build.web-inf.dir}/web.xml" encoding="${encoding}">
+			<webinf dir="${build.web-inf.dir}" prefix="WEB-INF" />
+			<lib dir="${build.lib.dir}" includes="*.jar" />
+			<zipfileset dir="${build.webapp.dir}">
+				<include name="editor/**/*" />
+				<include name="index.jsp" />
+			</zipfileset>
+		</war>
+
+		<!-- ビルドのためにコピーしたフォルダを削除 -->
+		<delete dir="${build.webapp.dir}" includeEmptyDirs="true" />
+		<delete dir="${build.lib.dir}" includeEmptyDirs="true" />
+	</target>
+
+</project>

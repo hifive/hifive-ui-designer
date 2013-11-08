@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+.dividedBox{
+	padding:0px;
+}
+.dividedBox > * {
+	margin:0px;
+}
+.dividedBox.horizontal {
+	white-space:nowrap;
+}
+.dividedBox.horizontal > *{
+	display:inline-block;
+	vertical-align:middle;
+}
+.dividedBox.horizontal > .fill{
+	height:100%;
+}
+.dividedBox.horizontal > .divider{
+	display:inline-block;
+	width:4px;
+	height:100%;
+	margin:0;
+	padding:0;
+}
+.dividedBox.vertical > *{
+	display:block;
+}
+.dividedBox.vertical > .fill{
+	width:100%;
+}
+.dividedBox.vertical > .divider{
+	display:block;
+	width:100%;
+	height:4px;
+}
+.dividedBox > .divider{
+	overflow: visible;
+}
+.dividerHandler{
+	width:30px;
+	height:30px;
+	border-style: solid;
+	border-width: 1px;
+	border-radius: 15px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	-o-border-radius: 15px;
+	-ms-border-radius: 15px;
+}
+.dividedBox.vertical > .divider .dividerHandler{
+	margin-left:auto;
+	margin-right:auto;
+}
+
+
+.divider, .dividerHandler {
+	background-color: yellow;
+}

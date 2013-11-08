@@ -1,0 +1,6 @@
+@charset "utf-8";
+
+._h5editorMinSize {
+	min-width: 50px!important;
+	min-height: 50px!important;
+}

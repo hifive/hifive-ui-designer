@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>hifive画面デザイナ</title>
+
+<link rel="stylesheet" href="res/lib/jstree/jstree.custom.css">
+<link rel="stylesheet" href="res/lib/bootstrap/css/bootstrap.css"
+	media="screen">
+<link rel="stylesheet" href="res/lib/hifive/h5.css">
+
+<link rel="stylesheet"
+	href="/hifiveUILibrary/components/DividedBox/src/DividedBox.css">
+
+
+<link rel="stylesheet" href="css/editor.css">
+<link rel="stylesheet" href="css/editor-external.css">
+
+
+
+<!-- <link rel="stylesheet" type="text/css" href="./src/hifive/editor/controller/GenericParameterEditController.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="lib/momentumScrolling.css"> -->
+
+<script src="res/lib/jquery/jquery-2.0.3.min.js"></script>
+<script src="res/lib/bootstrap/js/bootstrap.js"></script>
+
+<script src="res/lib/jstree/jquery.jstree.js"></script>
+
+<script src="res/lib/hifive/ejs-h5mod.js"></script>
+
+<script src="src/preinit.js"></script>
+
+<script src="res/lib/hifive/h5.js"></script>
+
+<!--
+<script src="h5.debug.js"></script>
+ -->
+
+<script src="h5.ext.js"></script>
+
+
+<script src="src/hifive/editor/constants.js"></script>
+
+<script>
+	h5.u.obj.ns('hifive.editor.settings').srcBase = '/hifiveVisualEditor/editor/src/';
+
+	h5.u.obj.ns('hifive.editor.settings').fileStoreBase = '/hifiveVisualEditor/storage/files/';
+	h5.u.obj.ns('hifive.editor.settings').pathAutoReload = '/hifiveVisualEditor/editor/data/js/autoreload.js';
+	h5.u.obj.ns('hifive.editor.settings').pathHandwritingController = '/hifiveVisualEditor/editor/src/hifive/editor/controller/HandwritingController.js';
+
+	h5.u.obj.ns('hifive.editor.settings').savePathBase = '/hifiveVisualEditor/storage/files/';
+
+
+	//JsBaseとCssBaseは同一でもよい
+	h5.u.obj.ns('hifive.editor.settings').libraryJsBase = '/hifiveVisualEditor/lib';
+	h5.u.obj.ns('hifive.editor.settings').libraryCssBase = '/hifiveVisualEditor/lib';
+
+	//h5.u.obj.ns('hifive.editor.settings').userLibraryJsBase = '/hifiveVisualEditor/lib';
+	//h5.u.obj.ns('hifive.editor.settings').userLibraryCssBase = '/hifiveVisualEditor/lib';
+
+
+	h5.ext.basePath = './src';
+	h5.core.controller.registerAlias('c', 'hifive.editor.controller');
+</script>
+
+
+
+<script src="src/model.js"></script>
+
+<script src="/hifiveUILibrary/components/DividedBox/src/DividedBox.js"></script>
+<script src="/hifiveUILibrary/components/contextMenu/src/contextMenu.js"></script>
+
+
+<script src="src/hifive/editor/logic/FileStoreLogic.js"></script>
+<script src="src/hifive/editor/logic/PreviewLogic.js"></script>
+
+
+
+<script src="src/hifive/editor/u.js"></script>
+
+<script src="src/hifive/editor/_.js"></script>
+
+<script src="src/hifiveEditorServer.js"></script>
+
+<!-- u.jsが必要 -->
+<script>
+	// 環境変数の設定
+	hifive.editor.u.setEnv('SYSTEM_LIB', '/hifiveVisualEditor/editor/lib');
+// 	hifive.editor.u.setEnv('USER_LIB', '/hifiveVisualEditor/editor/lib');
+</script>
+<script src="src/hifive/editor/logic/PageExportLogic.js"></script>
+
+<!--
+<script src="src/hifive/editor/controller/BootstrapGridLayoutController.js"></script>
+-->
+
+<script
+	src="src/hifive/editor/controller/GenericParameterEditController.js"></script>
+<script src="src/hifive/editor/controller/TagEditController.js"></script>
+<script src="src/hifive/editor/controller/EditPopupController.js"></script>
+<script src="src/hifive/editor/controller/CSSEditorController.js"></script>
+<script src="src/hifive/editor/controller/PageController.js"></script>
+<script src="src/hifive/editor/controller/NodePathController.js"></script>
+
+<script src="src/hifive/editor/logic/PageTemplateLogic.js"></script>
+
+<script src="parts/ui/ui.common.js"></script>
+<script src="parts/ui/base/base.js"></script>
+<script src="parts/ui/layout/layout.js"></script>
+<script src="parts/ui/hifive/components.js"></script>
+<script src="parts/ui/bootstrap/bootstrap.js"></script>
+<script src="parts/bootstrap3/bootstrap.js"></script>
+
+<script src="src/initData.js"></script>
+
+
+<script src="src/boot.js"></script>
+
+
+<script id="pageTemplateList" type="text/ejs">
+<ul class="carouselBox horizontal pageTemplateList" data-h5-loop-context="pageTemplates">
+	<li class="pageTemplateItem" data-h5-bind="attr(data-template-id):id">
+		<img class="thumbnail" data-h5-bind="attr(src):thumbnail; attr(alt):name; attr(title):description">
+		<h2 data-h5-bind="name"></h2>
+	</li>
+</ul>
+</script>
+
+<script id="createPageForm" type="text/ejs">
+<form id="createPageForm" class="form-horizontal">
+	<div class="pageTemplates" style="display:none"></div>
+	画面一覧：<select name="predefined">
+		<option value=""></option>
+		<option value="/quiz/login.html">login.html (ログイン)</option>
+		<option value="/quiz/answer.html?questionSetId=0">answer.html (解答ページ)</option>
+		<option value="/quiz/create-account.html">create-account.html (新規ユーザ登録)</option>
+		<option value="/quiz/question-list.html">question-list.html (問題一覧)</option>
+		<option value="/quiz/ranking.html">ranking.html (ランキング)</option>
+		<option value="/quiz/record_detail.html?hid=7">record_detail.html (成績詳細)</option>
+		<option value="/quiz/record.html">record.html (過去の成績)</option>
+		<option value="/quiz/register-question.html">register-question.html (問題作成)</option>
+		<option value="/quiz/result.html?hid=67">result.html (結果)</option>
+		<option value="/quiz/top.html">top.html (トップ)</option>
+	</select>
+	<div>または</div>
+	URL指定：<input name="pageUrl" type="text" placeholder="テンプレートURL（例：index.html）" class="input-xlarge" value="">
+	<div>
+<!--
+↓<br>
+		保存先：
+-->
+		<div class="input-append">
+			<input name="savePath" type="text" placeholder="例：pages/index.html" class="input-xlarge" value="index.html" style="display:none">
+			<input name="createPage" type="button" value="作成" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+</script>
+
+<script id="snapshotMenuItem" type="text/ejs">
+<li><a tabindex="-1" target="_blank" href="[%= url %]">[%= time %]のスナップショット</a></li>
+</script>
+
+<script id="tagEdit-table" type="text/ejs">
+[%# TODO タイトルは不要か
+<h3 >タグ属性編集<button type="button" class="btn-small apply">適用</button></h3>
+%]
+<h3 class="tagName">(ダブルクリックで選択)</h3>
+<table>
+<thead>
+<tr><th>属性名</th><th>属性値</th></tr>
+</thead>
+<tbody>
+</tbody>
+</tbody></table>
+</script>
+
+
+
+
+<script id="tagEdit-tr" type="text/ejs">
+[%
+	attributes.push({name:'',value:''});
+ 	for(var i = 0, l = attributes.length; i < l; i++){
+%]
+<tr class="control-group [%= (attributes[i].hidden? 'hidden': '') %]"><td class="labelCell"><input class="attrName" type="text" value="[%= attributes[i].name %]" [%= (attributes[i].fix? 'disabled': '') %]/></td><td class="valuetCell"><input class="attrVal" name="[%= attributes[i].name %]" type="text" value="[%= attributes[i].value %]"/></td></tr>
+[% } %]
+</script>
+
+<script id="editPopup" type="text/ejs">
+<div class="editorRoot __genericParameterEditorBox in"></div>
+<div class="tagEdit"></div>
+</script>
+
+<!--
+	<ul class="dropdown-menu">
+		<li><a tabindex="-1" href="[%= url %]">別ウィンドウで開く</a></li>
+		<li><a tabindex="-1" href="#">読み込む</a></li>
+</ul>
+-->
+
+
+<!--
+	<div>または</div>
+	<div class="input-append">
+		<input name="pageUrl" type="text" placeholder="読み込みURL（例：index.html）" class="input-xlarge" value="/hifiveVisualEditor/customercarte/index.html">
+		<input name="loadPage" type="button" value="読み込む" class="btn">
+	</div>
+
+ -->
+
+<script id="export" type="text/ejs">
+<div class="export">
+	<div class="contentsBox">
+	生成されたHTML:<br>
+	<textarea class="contents"></textarea>
+	</div>
+<button class="download btn btn-primary btn-block">ダウンロード</button>
+</div>
+</script>
+
+<script id="tmp-cssErrorMessage" type="text/ejs">
+<p>[%= message %]</p>
+</script>
+
+</head>
+<body>
+	<div id="appRoot" data-h5-controller="c:AppController">
+
+		<div id="container" class="dividedBox horizontal">
+			<div id="toolPanel" class="fill bg-carbon">
+				<div class="dividedBox vertical">
+					<div class="menuWrapper fill layoutCell">
+						<div class="menu"
+							data-h5-controller="hifive.editor.controller.LoadPageController">
+							<input name="create" type="button" value="新規作成"
+								class="btn btn-primary btn-block">
+							<input name="editTemplate" type="button" value="テンプレート編集"
+								class="btn btn-block">
+						</div>
+					</div>
+					<div class="componentPaletteWrapper fill autoSize">
+						<div class="componentPalette"
+							data-h5-controller="c:ComponentPaletteController"></div>
+					</div>
+				</div>
+			</div>
+
+			<div id="pagePanel" class="dividedBox vertical fill bg-carbon">
+				<div class="pageControl layoutCell"
+					data-h5-controller="c:PageControlController">
+
+					<button class="selectionMode btn btn-small">コンポーネント選択モード</button>
+
+					<div style="width: 20px; display: inline-block;"></div>
+
+					<button class="livePreview btn btn-small">簡易プレビュー</button>
+
+					<div class="btn-group">
+						<a class="btn btn-small dropdown-toggle" data-toggle="dropdown">スナップショット
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="#takeSnapshot" tabindex="-1">作成</a></li>
+							<li class="divider snapshotLogTop"></li>
+						</ul>
+					</div>
+
+					<input name="export" type="button" value="エクスポート"
+						data-h5editor-component="bootstrap.button.button"
+						class="btn btn-small">
+					<!-- 					仮想ウィンドウサイズ：<input name="windowSize" type="range" value="1024" min="0" max="2000"><input type="text" name="currentWindowSize" size="4" disabled> -->
+					<!--
+					<input name="exportForCheck" type="button" value="エクスポート(自動更新)"
+						class="btn btn-small">
+ -->
+
+					<div class="previewUrlBox">
+						<button type="button" class="previewAutoSave btn btn-mini">プレビューURL：</button>
+						<a target="_blank" class="previewUrl"></a> <span
+							class="previewLastSaved"></span>
+					</div>
+				</div>
+
+				<div class="pageWrapper autoSize"
+					data-h5-controller="c:EditPopupController">
+					<div class="pageStage">
+						<iframe id="if" class="pageFrame"></iframe>
+						<div class="pageOverlay">
+<!--
+							<div class="layer gridLayer">
+								<svg class="grid"></svg>
+							</div>
+-->
+							<div class="layer regionLayer"></div>
+							<div class="layer pageVeil"></div>
+							<div class="layer popupLayer"></div>
+						</div>
+					</div>
+					<ul class="dropdown-menu contextMenu" role="menu"
+						aria-labelledby="dLabel">
+						<li><a tabindex="-1" href="#remove">削除</a></li>
+					</ul>
+					<ul class="breadcrumb nodePath" id="domRelationship"></ul>
+				</div>
+			</div>
+
+			<div id="editPanel" class="fill bg-carbon dividedBox vertical">
+				<div class="editorRoot fill autoSize"></div>
+				<div class="tagEdit fill autoSize"
+					data-h5-controller="c:TagEditController"></div>
+				<div id="editCSSPanel"
+					class="pane pane-full fill bg-carbon autoSize">
+					<div class="styleDef-wrapper">
+						<h3>
+							カスタムCSS
+							<button type="button" class="applyBtn btn-mini apply">適用</button>
+						</h3>
+						<textarea id="styleDef"></textarea>
+						<div id="cssErrorMessage"></div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- 						<div id="toolBoxPanel" class="pane pane-full"> -->
+
+			<!-- 							<div class="dividedBox horizontal"> -->
+
+			<!-- 								<div class="pane pane-mini"></div> -->
+
+			<!-- 								<div class="pane pane-mini"></div> -->
+
+			<!-- 							</div> -->
+
+			<!-- 						</div> -->
+
+			<!-- 						<div id="mainPanel" class="pane pane-full"></div> -->
+
+
+
+		</div>
+
+	</div>
+</body>
+</html>

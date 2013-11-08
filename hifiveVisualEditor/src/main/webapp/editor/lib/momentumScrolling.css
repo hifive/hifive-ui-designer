@@ -1,0 +1,71 @@
+.momentumScrollingBox {
+	overflow: hidden;
+	white-space: nowrap;
+	width: 100%;
+}
+
+.column {
+	vertical-align: top;
+	float: none;
+	display: inline-block;
+	width: 200px;
+	margin: 10px;
+	white-space: normal;
+}
+
+body {
+	padding: 1em;
+	width: auto;
+	margin: 0;
+	padding: 0;
+}
+
+div.dividedBox {
+	background-color:;
+	padding: 1em;
+}
+/*
+			div.dividedBox div.box{
+				background-color: #00ffff;
+			}
+			div.dividedBox div.box:first-child{
+				background-color: blue;
+			}
+			div.dividedBox div.box:last-child{
+				background-color: red;
+			}
+			*/
+div.x {
+	white-space: nowrap;
+}
+
+div.x div.box {
+	vertical-align: top;
+	display: inline-block;
+	width: 33%;
+	height: 300px;
+	-webkit-transition: opacity 0.4s;
+	-o-transition: opacity 0.4s;
+	transition: opacity 0.4s;
+}
+
+div.x div.divider {
+	display: inline-block;
+	width: 4px;
+	height: 300px;
+	background-color: #000099;
+	margin: 0;
+}
+
+div.dividerHandler {
+	width: 30px;
+	height: 30px;
+	border: solid 1px #0000cc;
+	background-color: #0000cc;
+	border-radius: 15px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	-o-border-radius: 15px;
+	-ms-border-radius: 15px;
+	z-index: 2;
+}
