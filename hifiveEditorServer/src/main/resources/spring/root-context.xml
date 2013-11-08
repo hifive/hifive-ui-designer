@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- アプリの設定ファイルのインポート -->
+	<import resource="classpath:appConf/applicationContext.xml" />
+
+	<!-- 以下フレームワーク設定 -->
+
+	<!-- 設定プロパティファイルの読み込み -->
+	<context:property-placeholder location="classpath:appConf/*.properties" />
+
+	<!-- アプリ設定プロパティファイル読み込み -->
+	<bean id="appConf"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath:appConf/fileresource.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- リソース定義プロパティファイルの読み込み設定例。リソース定義アノテーションよりもこちらが優先される。 -->
+	<bean id="resourceDef"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<value>classpath:appConf/resource-def.properties</value>
+		</property>
+	</bean>
+
+	<!-- processContinuationStrategy の設定例。Bean定義自体がない場合はAlwaysTerminatingStrategyが使用される。
+		ResourceConfigurer参照 -->
+	<!-- Bean定義があって、strategyMapに含まれない例外もTerminate。ConfigurableProcessContinuationStrategy参照 -->
+	<!-- <bean id="processContinuationStrategy" class="com.htmlhifive.resourcefw.service.processing.ConfigurableProcessContinuationStrategy">
+		<property name="strategyMap"> <map> <entry key="com.htmlhifive.resourcefw.exception.NotFoundException">
+		<value type="com.htmlhifive.resourcefw.service.ResourceProcessingStatus">CONTINUE</value>
+		</entry> </map> </property> </bean> -->
+
+	<!-- resourceInterfaceList の設定例。Bean定義自体がない場合はBasicResourceのみ含まれる。 ResourceConfigurer参照 -->
+	<!-- Bean定義があってリストが空場合、BasicResourceも含まなくなる -->
+	<!-- <util:list id="resourceInterfaceList"> <value type="java.lang.Class">
+		com.htmlhifive.resourcefw.resource.AbstractCrudResource </value> </util:list> -->
+
+	<!-- GenericUrlTreeFileResourceのcontentsPersister設定 -->
+	<bean id="contentsPersister"
+		class="com.htmlhifive.visualeditor.persister.LocalFileContentsPersister">
+	</bean>
+
+	<!-- Spring Security関連の設定ファイルのインポート -->
+	<import resource="classpath:spring/security-prop.xml" />
+
+	<!-- dataアクセス系の設定ファイルのインポート -->
+	<import resource="database.xml" />
+
+	<!-- フレームワークJPA Repositoryの設定 -->
+	<!-- ResourceConfigurerの@EnableJpaRepositoriesに置き換えたいが、EntityManagerFactoryの設定がこの設定ファイルにあるためか、動作しないのでここで設定 -->
+	<jpa:repositories base-package="com.htmlhifive.resourcefw.resource"
+		transaction-manager-ref="transactionManager" />
+
+	<!-- JPA EntityManagerの設定 -->
+	<bean id="abstractEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		abstract="true">
+		<property name="packagesToScan">
+			<list>
+				<value>com.htmlhifive.resourcefw.service</value>
+				<value>com.htmlhifive.resourcefw.resource</value>
+			</list>
+		</property>
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+		<property name="persistenceXmlLocation" value="classpath:persistence.xml" />
+	</bean>
+	<!-- トランザクションマネージャ(JPA用)の設定 -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+		p:dataSource-ref="dataSource">
+		<property name="defaultTimeout" value="100" />
+	</bean>
+
+</beans>

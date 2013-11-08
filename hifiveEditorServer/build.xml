@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="restfw-app" default="build" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<property name="version" value="1.0.0beta" />
+	<property name="source" value="src/main/java" />
+	<property name="resources" value="src/main/resources" />
+	<property name="test.source" value="src/test/java" />
+	<property name="test.resources" value="src/test/resources" />
+	<property name="lib.dir" value="lib" />
+	<property name="test.lib" value="${lib.dir}/test" />
+	<property name="dest" value="target" />
+	<property name="dest.test" value="target-test/classes" />
+	<property name="dest.classes" value="target/classes" />
+	<property name="dest.doc" value="target/doc" />
+
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+	<path id="test-classpath">
+		<fileset dir="${lib.dir}/test" includes="**/*.jar" />
+	</path>
+
+	<target name="all" depends="clean,test,build,javadoc" />
+
+	<target name="test-compile">
+		<mkdir dir="${dest.test}" />
+		<javac srcdir="${test.source}" destdir="${dest.test}" includes="**/*.java" includeantruntime="false">
+			<classpath>
+				<path refid="classpath" />
+				<path refid="test-classpath" />
+				<pathelement location="./classes" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="test" depends="test-compile">
+		<junit fork="yes" haltonfailure="yes">
+			<batchtest todir="${dest}">
+				<fileset dir="${test.source}" includes="**/*Test.java" />
+			</batchtest>
+			<formatter type="plain" usefile="false" />
+			<classpath>
+				<pathelement location="${dest.compile}" />
+				<pathelement location="${dest.test}" />
+				<path location="${test.lib}/**/*.jar" />
+				<path refid="classpath" />
+			</classpath>
+		</junit>
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${dest.classes}" />
+		<javac srcdir="${source}" destdir="${dest.classes}" includes="**/*.java" includeantruntime="false" encoding="utf-8">
+			<classpath>
+				<path refid="classpath" />
+				<pathelement location="${webapp}/WEB-INF/lib" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="build" depends="compile">
+		<jar destfile="./target/hifiveEditorServer.jar" basedir="${dest.classes}">
+			<fileset dir="${resources}" />
+		</jar>
+	</target>
+
+	<target name="javadoc">
+		<javadoc destdir="${dest.doc}" encoding="UTF-8" source="1.7" author="true" version="true" access="public" use="true" nonavbar="false" notree="true" nodeprecated="false" nodeprecatedlist="false" noindex="false" splitindex="true" nohelp="true" windowtitle="jqPlotSample" docencoding="UTF-8" charset="UTF-8">
+			<link href="http://docs.oracle.com/javase/7/docs/api/" />
+			<sourcepath path="${source}" />
+			<package name="jp.co.nssol.*" />
+		</javadoc>
+	</target>
+
+	<target name="clean">
+		<delete>
+			<fileset dir="${dest}" includes="**/*" />
+		</delete>
+	</target>
+
+</project>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+  http://www.springframework.org/schema/security
+  http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<http auto-config="true">
+		<http-basic />
+		<intercept-url pattern="/${SERVICE_ROOT_PATH}/**"
+			access='ROLE_ADMIN' />
+		<remember-me key="hifiveResourcesAuthentication"
+			user-service-ref="userService" />
+	</http>
+
+	<authentication-manager>
+		<authentication-provider>
+			<user-service id="userService" properties="classpath:appConf/users.properties" />
+		</authentication-provider>
+	</authentication-manager>
+
+	<beans:bean id="digestFilter"
+		class="org.springframework.security.web.authentication.www.DigestAuthenticationFilter">
+		<beans:property name="userDetailsService" ref="userService" />
+		<beans:property name="authenticationEntryPoint" ref="digestEntryPoint" />
+	</beans:bean>
+
+	<beans:bean id="digestEntryPoint"
+		class="org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint">
+		<beans:property name="realmName"
+			value="Contacts Realm via Digest Authentication" />
+		<beans:property name="key" value="acegi" />
+	</beans:bean>
+
+	<!-- ResourceTree用AuthorizationManagerの設定 -->
+	<beans:bean id="urlTreeAuthorizationManager"
+		class="com.htmlhifive.resourcefw.resource.file.auth.FullPermissionAuthManager">
+	</beans:bean>
+	<!--
+	<beans:bean id="urlTreeAuthorizationManager"
+		class="com.htmlhifive.resourcefw.resource.file.auth.UnixPermissionAuthManager">
+	</beans:bean>
+	 -->
+
+</beans:beans>
