@@ -14,7 +14,7 @@
 	<property name="server.resources" value="${server.dir}/src/main/resources" />
 	<property name="server.build.xml" value="${server.dir}/build.xml" />
 	<property name="server.jar" value="${server.dir}/target/hifiveEditorServer.jar" />
-	<property name="ui.components.dir" value="../hifiveUILibrary/WebContent/components" />
+	<property name="ui.components.dir" value="C:/hifive/workspace/hifiveUILibrary/WebContent/components" />
 	<property name="editor.dir" value="${web-content.dir}/editor" />
 	<property name="editor.tmp" value="${web-content.dir}/tmp" />
 	<property name="editor.resources" value="src/main/resources" />
@@ -41,8 +41,8 @@
 	<target name="clean" depends="init">
 		<delete dir="${build.webapp.dir}" />
 		<delete file="${build.dir}/${app.name}.war" />
-		<delete dir="${build.lib.dir}" includes="*.jar" />
-		<delete dir="${lib.dir}" includes="*.jar" />
+		<delete dir="${build.lib.dir}" includes="**/*.jar" />
+		<delete dir="${lib.dir}" includes="**/*.jar" />
 	</target>
 
 	<target name="copy" depends="init, clean, server-build">
@@ -52,8 +52,9 @@
 		<copy todir="${build.ui.dir}">
 			<fileset dir="${ui.components.dir}" />
 		</copy>
-		<copy todir="${build.lib.dir}">
-			<fileset dir="${server.lib}" includes="*.jar" />
+		<!-- サーバのlibフォルダをweb-inf/libにコピー -->
+		<copy todir="${build.web-inf.dir}/lib" flatten="true">
+			<fileset dir="${server.lib}" includes="**/*.jar" />
 		</copy>
 		<!-- UIコンポーネントをコピー -->
 		<copy todir="${build.webapp.dir}/editor/ui/components">
