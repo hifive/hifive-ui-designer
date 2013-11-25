@@ -135,12 +135,12 @@
 					types: {
 						folder: {
 							icon: {
-								image: 'images/folder.png'
+								image: 'res/images/folder.png'
 							}
 						},
 						component: {
 							icon: {
-								image: 'images/file.png'
+								image: 'res/images/file.png'
 							}
 						}
 					}
