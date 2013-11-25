@@ -90,6 +90,7 @@
 <script>
 	// 環境変数の設定
 	hifive.editor.u.setEnv('SYSTEM_LIB', '/hifiveVisualEditor/editor/lib');
+	hifive.editor.u.setEnv('HIFIVE_UI_COMPONENTS', '/hifiveUILibrary/components');
 // 	hifive.editor.u.setEnv('USER_LIB', '/hifiveVisualEditor/editor/lib');
 </script>
 <script src="src/hifive/editor/logic/PageExportLogic.js"></script>
@@ -115,10 +116,27 @@
 <script src="parts/ui/bootstrap/bootstrap.js"></script>
 <script src="parts/bootstrap3/bootstrap.js"></script>
 
+<script>
+
+
+
+hifive.editor.addCreator({
+	id: 'hifive.uiComponents',
+	palette: 'hifive.uiComponents',
+	label: '基本',
+	isGroup: true
+});
+
+</script>
+
+<script src="/hifiveUILibrary/components/calendar/designer/designerDef.js"></script>
+
+
 <script src="src/initData.js"></script>
 
 
 <script src="src/boot.js"></script>
+
 
 
 <script id="pageTemplateList" type="text/ejs">

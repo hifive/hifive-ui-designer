@@ -1,6 +1,6 @@
 $(function() {
 
-	h5.core.view.load('templates/templates.ejs').done(function() {
+	//h5.core.view.load('templates/templates.ejs').done(function() {
 	// 				$(function() {
 	// 					h5.require('com.htmlhifive.visualeditor.PadController').resolve().done(
 	// 							function(padController) {
@@ -11,9 +11,10 @@ $(function() {
 	// 								});
 	// 							});
 	// 				});
-	});
+	//});
 
 	//ここまで即時関数だった
+
 
 
 
