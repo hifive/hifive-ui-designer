@@ -141,8 +141,8 @@
 			createView: createView,
 			createEditor: editSchema,
 			requirements: {
-				jsMandatory: '$SYSTEM_LIB$/DividedBox/DividedBox.css',
-				cssMandatory: '$SYSTEM_LIB$/DividedBox/DividedBox.js'
+				jsMandatory: '$SYSTEM_LIB$/DividedBox/DividedBox.js',
+				cssMandatory: '$SYSTEM_LIB$/DividedBox/DividedBox.css'
 			}
 		};
 		hifive.editor.addCreator(creator);
