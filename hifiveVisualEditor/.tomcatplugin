@@ -31,29 +31,28 @@
         <webClassPathEntry>/hifiveEditorServer/lib/etc/jackson-core-asl-1.9.12.jar</webClassPathEntry>
         <webClassPathEntry>/hifiveEditorServer/lib/etc/jackson-mapper-asl-1.9.12.jar</webClassPathEntry>
         <webClassPathEntry>/hifiveEditorServer/lib/hifive-resource-framework-1.2.0rp.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/log/jcl-over-slf4j-1.7.2.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/ivy/ivy-2.3.0.jar</webClassPathEntry>
         <webClassPathEntry>/hifiveEditorServer/lib/log/log4j-1.2.17.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/log/slf4j-api-1.7.2.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/log/slf4j-log4j12-1.7.2.jar</webClassPathEntry>
         <webClassPathEntry>/hifiveEditorServer/lib/spring/aopalliance-1.0.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/aspectjrt-1.6.12.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/jcl-over-slf4j-1.6.1.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/slf4j-api-1.6.1.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-aop-3.2.5.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-beans-3.2.5.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-context-3.2.5.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-core-3.2.5.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-data-commons-core-1.3.2.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-data-jpa-1.1.2.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-expression-3.2.5.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-jdbc-3.2.5.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-orm-3.2.5.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-security-config-3.1.3.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-security-core-3.1.3.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-security-web-3.1.3.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-tx-3.2.5.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-web-3.2.2.RELEASE.jar</webClassPathEntry>
-        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-webmvc-3.2.2.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/aspectjrt-1.7.2.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/jcl-over-slf4j-1.7.1.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/slf4j-api-1.7.1.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-aop-3.2.6.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-beans-3.2.6.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-context-3.2.6.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-core-3.2.6.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-data-commons-1.6.3.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-data-commons-core-1.4.1.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-data-jpa-1.4.3.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-expression-3.2.6.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-jdbc-3.2.6.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-orm-3.2.6.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-security-config-3.2.0.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-security-core-3.2.0.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-security-web-3.2.0.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-tx-3.2.6.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-web-3.2.6.RELEASE.jar</webClassPathEntry>
+        <webClassPathEntry>/hifiveEditorServer/lib/spring/spring-webmvc-3.2.6.RELEASE.jar</webClassPathEntry>
         <webClassPathEntry>/hifiveEditorServer/target/classes</webClassPathEntry>
         <webClassPathEntry>/hifiveVisualEditor/src/main/webapp/WEB-INF/classes</webClassPathEntry>
         <webClassPathEntry>/hifiveVisualEditor/work</webClassPathEntry>
