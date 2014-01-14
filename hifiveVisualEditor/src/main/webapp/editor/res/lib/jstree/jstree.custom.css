@@ -3,5 +3,9 @@
 }
 
 .jstree-default.jstree-focused {
-	background: rgba(255, 255, 255, 0.75)!important;
+	background: rgba(255, 255, 255, 0.75) !important;
+}
+
+li.jstree-open>a .jstree-icon {
+	background: url("../../images/folder_open.png") 0px 0px no-repeat !important;
 }
