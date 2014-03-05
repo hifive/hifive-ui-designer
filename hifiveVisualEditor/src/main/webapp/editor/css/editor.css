@@ -541,3 +541,15 @@ background: linear-gradient(top, #424242 0%, #787878 50%, #4d4d4d 100%);
   line-height: 12px; }
   .tagEdit h3 .applyBtn {
     margin-left: 10px; }
+
+table.gridOverlay {
+  width: 100%;
+  height: 100%;
+  border: 2px solid pink;
+  opacity: 0.2; }
+  table.gridOverlay .gridRow {
+    border: 2px solid red;
+    height: 12px; }
+  table.gridOverlay .gridCol {
+    border: 2px solid red;
+    height: 12px; }

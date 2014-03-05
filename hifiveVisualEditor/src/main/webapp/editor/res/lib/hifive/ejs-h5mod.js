@@ -6,7 +6,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  *
  * version 1.0.h5mod
- * gitCommitId : b6b61e4394c6819b99c7f793b233c2bce17346cd
+ * gitCommitId : 0c0b974fca79e92d07510a2b58d4864cf77f0aa0
  */
 (function(){var h=function(a,b){for(var c=b.exec(a),d=[],e;null!=c;)e=c.index,0!=e&&(a.substring(0,e),d.push(a.substring(0,e)),a=a.slice(e)),d.push(c[0]),a=a.slice(c[0].length),c=b.exec(a);""==!a&&d.push(a);return d},i=function(a,b){for(var c in b)b.hasOwnProperty(c)&&(a[c]=b[c])};EJS=function(a){a="string"==typeof a?{view:a}:a;this.set_options(a);if(a.precompiled)this.template={},this.template.process=a.precompiled,EJS.update(this.name,this);else{if(a.element){if("string"==typeof a.element){var b=
 a.element;a.element=document.getElementById(a.element);if(null==a.element)throw b+"does not exist!";}this.text=a.element.value?a.element.value:a.element.innerHTML;this.name=a.element.id;this.type="["}else if(a.url){a.url=EJS.endExt(a.url,this.extMatch);this.name=this.name?this.name:a.url;var b=a.url,c=EJS.get(this.name,this.cache);if(c)return c;if(c==EJS.INVALID_PATH)return null;try{this.text=EJS.request(b+(this.cache?"":"?"+Math.random()))}catch(d){}if(null==this.text)throw{type:"EJS",message:"There is no template at "+

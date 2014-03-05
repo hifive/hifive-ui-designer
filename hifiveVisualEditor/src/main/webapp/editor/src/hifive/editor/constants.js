@@ -1,6 +1,9 @@
 (function() {
 
 	h5.u.obj.expose('hifive.editor.consts', {
+		/**
+		 * @memberOf hifive.editor.consts
+		 */
 		LAYOUT_CELL_SELECTOR: '.layoutCell',
 
 		LAYOUT_CONTAINER_SELECTOR: '.layoutContainer',
@@ -54,6 +57,14 @@
 		EVENT_LIB_LOADING: 'libLoading',
 
 		EVENT_LIB_LOAD_COMPLETE: 'libLoadComplete',
+
+		EVENT_ADD_COMPONENT_BEGIN: 'addComponentBegin',
+
+		EVENT_ADD_COMPONENT_COMPLETE: 'addComponentComplete',
+
+		EVENT_ADD_COMPONENT_ABORT: 'addComponentAbort',
+
+		EVENT_ADD_COMPONENT_END: 'addComponentEnd',
 
 		SELECTION_MODE_ELEMENT: 0,
 

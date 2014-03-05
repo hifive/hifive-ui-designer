@@ -15,6 +15,12 @@
 		thumbnail: 'data/pageTemplates/thumbnail/blank.png',
 		description: '空のページです。jQueryとBootstrapが読み込まれています。'
 	}, {
+		name: 'Bootstrap2簡単モードブランク',
+		url: 'data/pageTemplates/bootstrap2-simple-grid-blank.html',
+		thumbnail: 'data/pageTemplates/thumbnail/blank.png',
+		description: '空のページです。レイアウトグリッドに基づいて簡易に部品を配置できます。Bootstrap2を使用しています。',
+		mailController: 'hifive.editor.controller.page.main.Bootstrap2SimpleGridController'
+	}, {
 		name: 'bootstrap3ブランク',
 		url: 'data/pageTemplates/bootstrap3_blank.html',
 		thumbnail: 'data/pageTemplates/thumbnail/blank.png',
@@ -40,7 +46,7 @@
 	var pageTemplateLogic = h5.core.logic(hifive.editor.logic.PageTemplateLogic);
 
 	function initData() {
-		for ( var i = 0, len = PAGE_TEMPLATES.length; i < len; i++) {
+		for (var i = 0, len = PAGE_TEMPLATES.length; i < len; i++) {
 			var tmpl = PAGE_TEMPLATES[i];
 			pageTemplateLogic.addTemplate(tmpl);
 		}

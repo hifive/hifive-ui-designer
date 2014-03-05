@@ -1,4 +1,4 @@
-(function() {
+(function($) {
 
 	// =========================================================================
 	//
@@ -133,7 +133,7 @@
 				return;
 			}
 
-			$v = $(elemToAdd);
+			var $v = $(elemToAdd);
 
 			if (beforeElement) {
 				$(beforeElement).after($v);
@@ -314,7 +314,7 @@
 			deep: true
 		});
 
-		for ( var i = 0, len = controllers.length; i < len; i++) {
+		for (var i = 0, len = controllers.length; i < len; i++) {
 			controllers[i].dispose();
 		}
 	}
@@ -537,6 +537,49 @@
 
 			_regionOverlays: [],
 
+
+
+			//TODO 後で分離
+			'{document} addComponentBegin': function() {
+
+				var $containers = $('.container', this._pageController.getDocument());
+
+				var overlayRect = this._getOverlayRect($containers[0]);
+
+				overlayRect.height = $(this._pageController.rootElement).height()
+						- $containers.offset().top;
+
+				var region = this._addOverlay($containers[0], overlayRect, 'addComponent',
+						'addComponent', 'addComponent', true);
+
+				var $regionRoot = region.$region;
+
+				var $table = $('<table class="gridOverlay"></table>');
+				var $tbody = $('<tbody></tbody>');
+				$table.append($tbody);
+
+				var GRID_ROW_AUX_HEIGHT = 12;
+
+				for (var i = 0; i < (overlayRect.height / GRID_ROW_AUX_HEIGHT); i++) {
+					var $tr = $('<tr class="gridRow"></tr>');
+
+					for (var j = 0; j < 12; j++) {
+						$tr.append('<td class="gridCol"></td>');
+					}
+					$tbody.append($tr);
+				}
+
+				$regionRoot.append($table);
+			},
+
+			'{document} addComponentEnd': function() {
+				//TODO リエントラントのときにバグの可能性
+				setTimeout(this.own(function() {
+					this._removeRegion(null, 'addComponent', null);
+				}), 500);
+			},
+
+
 			__ready: function() {
 				this._pageController = this.rootController;
 
@@ -583,12 +626,16 @@
 				});
 			},
 
-			_addOverlay: function(element, rect, id, group, type) {
+			_addOverlay: function(element, rect, id, group, type, fixedSize) {
 				if (!rect) {
 					return;
 				}
 
 				var $region = $(this.view.get('regionOverlay')).addClass(type);
+
+				if (fixedSize === true) {
+					$region.addClass('fixedSize');
+				}
 
 				this._setRegionPos($region, rect);
 
@@ -630,7 +677,7 @@
 
 			_removeRegion: function(element, id, group) {
 				if (element) {
-					for ( var i = 0, len = this._regionOverlays.length; i < len; i++) {
+					for (var i = 0, len = this._regionOverlays.length; i < len; i++) {
 						var r = this._regionOverlays[i];
 						if (r.element === element) {
 							//elementのみ、groupでの絞り込みを行っている
@@ -646,7 +693,7 @@
 				}
 
 				if (id) {
-					for ( var i = 0, len = this._regionOverlays.length; i < len; i++) {
+					for (var i = 0, len = this._regionOverlays.length; i < len; i++) {
 						var r = this._regionOverlays[i];
 						if (r.id === id) {
 							r.$region.remove();
@@ -657,7 +704,7 @@
 				}
 
 				if (group) {
-					for ( var i = this._regionOverlays.length - 1; i >= 0; i--) {
+					for (var i = this._regionOverlays.length - 1; i >= 0; i--) {
 						var r = this._regionOverlays[i];
 						if (r.group === group) {
 							r.$region.remove();
@@ -668,7 +715,7 @@
 			},
 
 			_getRegionAt: function(pageX, pageY, group) {
-				for ( var i = 0, len = this._regionOverlays.length; i < len; i++) {
+				for (var i = 0, len = this._regionOverlays.length; i < len; i++) {
 					var r = this._regionOverlays[i];
 					if (isInRegion(r.$region, pageX, pageY) && r.group === group) {
 						return r;
@@ -682,7 +729,7 @@
 					return null;
 				}
 
-				for ( var i = 0, len = this._regionOverlays.length; i < len; i++) {
+				for (var i = 0, len = this._regionOverlays.length; i < len; i++) {
 					var r = this._regionOverlays[i];
 					if (r.element === element) {
 						return r;
@@ -703,7 +750,7 @@
 					return;
 				}
 
-				for ( var i = 0, len = this._regionOverlays.length; i < len; i++) {
+				for (var i = 0, len = this._regionOverlays.length; i < len; i++) {
 					var r = this._regionOverlays[i];
 					if (r.element === elem && r.group === REGION_GROUP_OVER) {
 						//すでに同じ要素にオーバーレイしてある
@@ -795,7 +842,7 @@
 			'{rootElement} elementSelect': function(context) {
 				var elements = context.evArg.elements;
 
-				for ( var i = 0, len = elements.length; i < len; i++) {
+				for (var i = 0, len = elements.length; i < len; i++) {
 					var el = elements[i];
 
 					var overlayRect = this._getOverlayRect(el);
@@ -807,7 +854,7 @@
 			'{rootElement} elementUnselect': function(context) {
 				var elements = context.evArg.elements;
 
-				for ( var i = 0, len = elements.length; i < len; i++) {
+				for (var i = 0, len = elements.length; i < len; i++) {
 					var el = elements[i];
 					this._removeRegion(el, null, REGION_GROUP_SELECTED);
 				}
@@ -1120,7 +1167,7 @@
 			_removeElements: function() {
 				var elemToRemove = this._pageController.getSelectedElements().slice(0);
 
-				for ( var i = 0, len = elemToRemove.length; i < len; i++) {
+				for (var i = 0, len = elemToRemove.length; i < len; i++) {
 					var el = elemToRemove[i];
 
 					this._pageController.removeComponent(el);
@@ -1169,7 +1216,7 @@
 			_refresh: function() {
 				this._resizeOverlay();
 
-				for ( var i = 0, len = this._regionOverlays.length; i < len; i++) {
+				for (var i = 0, len = this._regionOverlays.length; i < len; i++) {
 					var overlay = this._regionOverlays[i];
 
 					var el = overlay.element;
@@ -1221,7 +1268,7 @@
 				//	'resizeOverlay: oW={6},oH={7},pcw={0},pch={1},psw={2},psh={3},w={4},h={5}',
 				//	pageCW, pageCH, pageSW, pageSH, w, h, outerW, outerH);
 
-				this.$find('.pageOverlay').css({
+				this.$find('.pageOverlay').not('.fixedSize').css({
 					width: w,
 					height: h
 				});
@@ -1236,6 +1283,54 @@
 
 			'{rootElement} libLoadComplete': function(context) {
 				$(this.rootElement).find('.status').remove();
+			},
+
+			_isComponentDragging: false,
+
+			_dragTarget: null,
+
+			'{rootElement} h5trackstart': function(context) {
+				var focus = this._pageController.getFocusElement();
+
+				var elemAt = this._pageController.getTargetAtPoint(context.event.pageX,
+						context.event.pageY);
+
+				if (elemAt) {
+					elemAt = elemAt.component;
+				} else {
+					return;
+				}
+
+				if (focus === elemAt) {
+					this._isComponentDragging = true;
+					this._dragTarget = focus;
+				}
+			},
+
+			'{document} h5trackmove': function(context) {
+				if (!this._isComponentDragging) {
+					return;
+				}
+
+				var offset = $(this._dragTarget).offset();
+
+				offset.top += context.event.dy;
+				offset.left += context.event.dx;
+
+				$(this._dragTarget).css({
+					top: offset.top,
+					left: offset.left
+				});
+
+				this._refresh();
+			},
+
+			'{document} h5trackend': function() {
+				if (!this._isComponentDragging) {
+					return;
+				}
+				this._isComponentDragging = false;
+				this._dragTarget = null;
 			}
 
 		//			'{body} h5trackmove': function(context) {
@@ -1517,6 +1612,13 @@
 				//TODO コンポーネントIDをdata()で持たせるかdata-*属性で持たせるかは要検討
 				$view.data(DATA_COMPONENT_ID, this._lastComponentId++);
 
+				var pagePos = this._toPagePos(pageX, pageY);
+
+				$view.css({
+					position: 'absolute',
+					top: pagePos.y,
+					left: pagePos.x
+				});
 
 				var componentAtPoint = selectionMode === hifive.editor.consts.SELECTION_MODE_ELEMENT ? layoutTarget.cell
 						: this._getComponent(pageX, pageY);
@@ -1577,14 +1679,14 @@
 
 				// insertCss, jsを使ってリソースを追加する。
 				var promises = [];
-				for ( var i = 0, l = resources.css.length; i < l; i++) {
+				for (var i = 0, l = resources.css.length; i < l; i++) {
 					var css = resources.css[i];
 					css.each(function() {
 						promises.push(insertCss(doc, this.getAttribute('href'), false, this
 								.getAttribute(hifive.editor.consts.DATA_H5_MODULE)));
 					});
 				}
-				for ( var i = 0, l = resources.js.length; i < l; i++) {
+				for (var i = 0, l = resources.js.length; i < l; i++) {
 					var js = resources.js[i];
 					js.each(function() {
 						promises.push(insertScript(doc, this.getAttribute('src'), false, this
@@ -1833,7 +1935,7 @@
 
 			moveComponent: function(target, elements) {
 				$(elements).each(function() {
-					$el = $(this).remove();
+					var $el = $(this).remove();
 					$(target).after($el);
 				});
 
@@ -1892,11 +1994,11 @@
 					return;
 				}
 				// 現在適用中のスタイルを削除
-				for ( var i = (stylesheet.rules || stylesheet.cssRules).length - 1; i >= 0; i--) {
+				for (var i = (stylesheet.rules || stylesheet.cssRules).length - 1; i >= 0; i--) {
 					stylesheet.deleteRule ? stylesheet.deleteRule(i) : stylesheet.removeRule(i);
 				}
 
-				for ( var i = 0, l = cssObjArray.length; i < l; i++) {
+				for (var i = 0, l = cssObjArray.length; i < l; i++) {
 					var cssObj = cssObjArray[i];
 					var selector = cssObj.selector;
 					var definitions = cssObj.definitions;
@@ -1905,7 +2007,7 @@
 						defStr = definitions;
 					} else {
 						defStr = '';
-						for ( var j = 0, len = definitions.length; j < len; j++) {
+						for (var j = 0, len = definitions.length; j < len; j++) {
 							var propValObj = definitions[j];
 							defStr += propValObj.key + ':' + propValObj.value + ';';
 						}
@@ -2000,7 +2102,7 @@
 
 				var actuals = [];
 
-				for ( var i = 0, len = elems.length; i < len; i++) {
+				for (var i = 0, len = elems.length; i < len; i++) {
 					var elem = elems[i];
 
 					if (this.isSelected(elem)) {
@@ -2173,4 +2275,4 @@
 
 	// h5.core.controller.define('hifive.editor.controller.PageController',
 	// PageController);
-})();
+})(jQuery);

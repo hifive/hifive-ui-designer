@@ -34,7 +34,7 @@
 					}
 					var places = $.isArray(c.__contents.palette) ? c.__contents.palette
 							: [c.__contents.palette];
-					for ( var i = 0, l = places.length; i < l; i++) {
+					for (var i = 0, l = places.length; i < l; i++) {
 						componentsOnPalette.push({
 							place: places[i],
 							contents: c.__contents
@@ -58,7 +58,7 @@
 			var childrens = {
 				'': data
 			};
-			for ( var i = 0, l = componentsOnPalette.length; i < l; i++) {
+			for (var i = 0, l = componentsOnPalette.length; i < l; i++) {
 				var place = componentsOnPalette[i].place;
 				// 一つ上のフォルダの場所名。ないなら空文字。
 				var placeRoot = place.replace(/^[^\.]*?$|\.[^\.]*?$/, '');
@@ -181,6 +181,8 @@
 
 			// <body>にアペンド
 			$(this.rootElement).append(this._$dragProxy);
+
+			this.trigger(hifive.editor.consts.EVENT_ADD_COMPONENT_BEGIN);
 		},
 
 		'{body} mousemove': function(context) {
@@ -225,17 +227,24 @@
 			// このチェックはdropされる側でやるべきか
 			var dropTarget = document.elementFromPoint(context.event.pageX, context.event.pageY);
 
+			this.trigger(hifive.editor.consts.EVENT_ADD_COMPONENT_END);
+
 			if (!$(dropTarget).is('.pageWrapper')
 					&& $(dropTarget).parents('.pageWrapper').length === 0) {
+
+				this.trigger(hifive.editor.consts.EVENT_ADD_COMPONENT_ABORT);
 				return;
 			}
 
 			var componentId = $removedDragProxy.attr('data-editor-component-name');
 			if (!componentId) {
+				this.trigger(hifive.editor.consts.EVENT_ADD_COMPONENT_ABORT);
 				return;
 			}
 
 			hifive.editor.dropComponent(componentId, context.event.pageX, context.event.pageY);
+
+			this.trigger(hifive.editor.consts.EVENT_ADD_COMPONENT_COMPLETE);
 		}
 
 	};

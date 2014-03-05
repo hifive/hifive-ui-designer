@@ -34,7 +34,8 @@
 
 <script src="src/preinit.js"></script>
 
-<script src="res/lib/hifive/h5.js"></script>
+<script src="res/lib/hifive/h5.dev.js"></script>
+
 
 <!--
 <script src="h5.debug.js"></script>
@@ -150,33 +151,19 @@ hifive.editor.addCreator({
 
 <script id="createPageForm" type="text/ejs">
 <form id="createPageForm" class="form-horizontal">
-	<div class="pageTemplates" style="display:none"></div>
-	画面一覧：<select name="predefined">
-		<option value=""></option>
-		<option value="/quiz/login.html">login.html (ログイン)</option>
-		<option value="/quiz/answer.html?questionSetId=0">answer.html (解答ページ)</option>
-		<option value="/quiz/create-account.html">create-account.html (新規ユーザ登録)</option>
-		<option value="/quiz/question-list.html">question-list.html (問題一覧)</option>
-		<option value="/quiz/ranking.html">ranking.html (ランキング)</option>
-		<option value="/quiz/record_detail.html?hid=7">record_detail.html (成績詳細)</option>
-		<option value="/quiz/record.html">record.html (過去の成績)</option>
-		<option value="/quiz/register-question.html">register-question.html (問題作成)</option>
-		<option value="/quiz/result.html?hid=67">result.html (結果)</option>
-		<option value="/quiz/top.html">top.html (トップ)</option>
-	</select>
+	<div class="pageTemplates"></div>
 	<div>または</div>
 	URL指定：<input name="pageUrl" type="text" placeholder="テンプレートURL（例：index.html）" class="input-xlarge" value="">
 	<div>
-<!--
 ↓<br>
 		保存先：
--->
 		<div class="input-append">
-			<input name="savePath" type="text" placeholder="例：pages/index.html" class="input-xlarge" value="index.html" style="display:none">
+			<input name="savePath" type="text" placeholder="例：pages/index.html" class="input-xlarge" value="index.html">
 			<input name="createPage" type="button" value="作成" class="btn btn-primary">
 		</div>
 	</div>
 </form>
+
 </script>
 
 <script id="snapshotMenuItem" type="text/ejs">

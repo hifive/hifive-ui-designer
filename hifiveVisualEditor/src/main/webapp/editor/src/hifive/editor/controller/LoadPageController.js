@@ -17,6 +17,9 @@
 
 
 	var pagePopUpController = {
+		/**
+		 * @memberOf hifive.editor.controller.PagePopUpController
+		 */
 		__name: 'hifive.editor.controller.PagePopUpController',
 
 		__init: function(context) {
@@ -49,7 +52,8 @@
 			var savePath = this.$find('[name="savePath"]').val();
 
 			//TODO GTC特別対応
-			var url = this.$find('[name="predefined"]').val(); //this.$find('[name="pageUrl"]').val();
+			//var url = this.$find('[name="predefined"]').val();
+			var url = this.$find('[name="pageUrl"]').val();
 
 			if (savePath === '') {
 				//TODO メッセージを出す
@@ -98,6 +102,9 @@
 	};
 
 	var loadPageController = {
+		/**
+		 * @memberOf hifive.editor.controller.LoadPageController
+		 */
 		__name: 'hifive.editor.controller.LoadPageController',
 
 		'[name="create"] click': function(context) {
@@ -134,9 +141,9 @@
 
 			var templateId = $(target).attr(DATA_TEMPLATE_ID);
 
-			var templateText;
+			var templateText = null;
 			if (templateId) {
-				$template = $(pageController.getDocument()).find(
+				var $template = $(pageController.getDocument()).find(
 						'script[type="text/ejs"][id="' + templateId + '"]');
 				if ($template[0]) {
 					templateText = $template[0].text;
@@ -151,7 +158,7 @@
 				jsonUrl = toAbsoluteUrl(jsonUrl, pageController.getDocument());
 			}
 
-			var sampleJson;
+			var sampleJson = null;
 
 			var dfd = h5.async.deferred();
 
