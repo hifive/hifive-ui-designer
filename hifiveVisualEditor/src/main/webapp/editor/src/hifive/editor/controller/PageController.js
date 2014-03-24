@@ -538,10 +538,27 @@
 			_regionOverlays: [],
 
 
-
 			//TODO 後で分離
 			'{document} addComponentBegin': function() {
+			//				this._show12Grid();
+			},
 
+			'{document} addComponentEnd': function() {
+			//TODO リエントラントのときにバグの可能性
+			//				setTimeout(this.own(function() {
+			//					this._removeRegion(null, 'addComponent', null);
+			//				}), 500);
+			},
+
+			'{document} loadPage': function() {
+				var that = this;
+				//TODO ロード完了後に
+				setTimeout(function() {
+					that._show12Grid();
+				}, 500);
+			},
+
+			_show12Grid: function() {
 				var $containers = $('.container', this._pageController.getDocument());
 
 				var overlayRect = this._getOverlayRect($containers[0]);
@@ -571,14 +588,6 @@
 
 				$regionRoot.append($table);
 			},
-
-			'{document} addComponentEnd': function() {
-				//TODO リエントラントのときにバグの可能性
-				setTimeout(this.own(function() {
-					this._removeRegion(null, 'addComponent', null);
-				}), 500);
-			},
-
 
 			__ready: function() {
 				this._pageController = this.rootController;
@@ -993,7 +1002,12 @@
 				return region;
 			},
 
-			'.pageVeil h5trackstart': function(context) {
+			'.pageVeil h5trackstart': function(context, $el) {
+				if (this._isLayoutMode()) {
+					this._layoutBegin(context, $el);
+					return;
+				}
+
 				var region = this._getRegionAt(context.event.pageX, context.event.pageY,
 						REGION_GROUP_SELECTED);
 
@@ -1014,13 +1028,117 @@
 			},
 
 			'.pageVeil h5trackmove': function(context, $el) {
+				if (this._isLayoutMode()) {
+					this._layoutMove(context, $el);
+					return;
+				}
+
 				this._resizeElement(this._resizeLayoutContainer, context.event.dx,
 						context.event.dy, this._draggingDirection);
 			},
 
 			'.pageVeil h5trackend': function(context, $el) {
+				if (this._isLayoutMode()) {
+					this._layoutEnd(context, $el);
+					return;
+				}
+
 				this._endResize();
 			},
+
+			_layoutStartPos: null,
+
+			layoutingRegion: null,
+
+			_layoutBegin: function(context) {
+				var startPos = this._toContainerPos(context.event.pageX, context.event.pageY);
+
+				this._layoutStartPos = startPos;
+
+				//var overlay = this._pageController.createOverlay('layoutGroup');
+
+				//var $root = $(overlay.root);
+
+//				$root.addClass('bsLayoutingOverlay').css({
+//					top: startPos.y,
+//					left: startPos.x
+//				});
+
+				var layoutingOverlayRect = {
+					x: startPos.x,
+					y: startPos.y,
+					width: 0,
+					height: 0
+				};
+
+				var region = this._addOverlay(null, layoutingOverlayRect, 'layouting', 'layouting',
+						'layouting');
+
+				var $regionRoot = region.$region;
+				$regionRoot.addClass('layouting');
+				$regionRoot.css({
+					top: startPos.y,
+					left: startPos.x
+				});
+
+				this.layoutingRegion = region;
+
+				this.log.debug('cx={0},cy={1}', startPos.x, startPos.y);
+
+//				var $table = $('<table class="gridOverlay"></table>');
+//				var $tbody = $('<tbody></tbody>');
+//				$table.append($tbody);
+//
+//				var GRID_ROW_AUX_HEIGHT = 12;
+//
+//				for (var i = 0; i < (overlayRect.height / GRID_ROW_AUX_HEIGHT); i++) {
+//					var $tr = $('<tr class="gridRow"></tr>');
+//
+//					for (var j = 0; j < 12; j++) {
+//						$tr.append('<td class="gridCol"></td>');
+//					}
+//					$tbody.append($tr);
+//				}
+//
+//				$regionRoot.append($table);
+			},
+
+			_layoutMove: function(context) {
+				var dx = context.event.dx;
+				var dy = context.event.dy;
+
+				var currentPos = this._toContainerPos(context.event.pageX, context.event.pageY);
+
+				var w = Math.abs(currentPos.x - this._layoutStartPos.x);
+				var h = Math.abs(currentPos.y - this._layoutStartPos.y);
+
+				this.log.debug('cx={0},cy={1},w={2},h={3}', currentPos.x, currentPos.y, w, h);
+
+				this.layoutingRegion.$region.css({
+					width: w,
+					height: h
+				});
+			},
+
+			_layoutEnd: function(context) {
+				this._layoutStartPos = null;
+				this._removeRegion(null, 'layouting', null);
+				this.layoutingRegion = null;
+			},
+
+			_isLayoutMode: function() {
+				return $('#layoutModeCheckBox').prop('checked');
+			},
+
+			_toContainerPos: function(px, py) {
+				var csx = px - $(this._pageContainer).offset().left;
+				var csy = py - $(this._pageContainer).offset().top;
+				return {
+					x: csx,
+					y: csy
+				};
+			},
+
 
 			_draggingDirection: null,
 
@@ -1220,6 +1338,12 @@
 					var overlay = this._regionOverlays[i];
 
 					var el = overlay.element;
+
+					if (!el) {
+						//オーバーレイに対応する要素がない場合は何もしない
+						continue;
+					}
+
 					var $region = overlay.$region;
 
 					var rect = this._getOverlayRect(el);

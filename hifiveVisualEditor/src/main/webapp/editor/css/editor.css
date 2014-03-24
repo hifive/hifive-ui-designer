@@ -553,3 +553,10 @@ table.gridOverlay {
   table.gridOverlay .gridCol {
     border: 2px solid red;
     height: 12px; }
+
+
+
+.layouting {
+	background-color: yellow;
+	opacity: 0.3;
+}
