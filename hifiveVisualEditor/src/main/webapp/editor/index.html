@@ -25,7 +25,7 @@
 <!-- <link rel="stylesheet" type="text/css" href="./src/hifive/editor/controller/GenericParameterEditController.css"> -->
 <!-- <link rel="stylesheet" type="text/css" href="lib/momentumScrolling.css"> -->
 
-<script src="res/lib/jquery/jquery-2.0.3.min.js"></script>
+<script src="res/lib/jquery/jquery.js"></script>
 <script src="res/lib/bootstrap/js/bootstrap.js"></script>
 
 <script src="res/lib/jstree/jquery.jstree.js"></script>
@@ -36,10 +36,8 @@
 
 <script src="res/lib/hifive/h5.dev.js"></script>
 
-
-
 <!--
-<script src="h5.devtool.js"></script>
+<script src="h5.devtool.min.js"></script>
  -->
 
 <script src="h5.ext.js"></script>
@@ -314,6 +312,27 @@ hifive.editor.addCreator({
 					<ul class="dropdown-menu contextMenu" role="menu"
 						aria-labelledby="dLabel">
 						<li><a tabindex="-1" href="#remove">削除</a></li>
+						<li><a tabindex="-1" href="#grouping">グループ化</a></li>
+						<li class="dropdown-submenu">
+							<a tabindex="-1" href="#contentsAlignLeft">コンテンツ位置揃え</a>
+							<ul class="dropdown-menu">
+								<li><a tabindex="-1" href="#contentsAlignLeft">左揃え</a></li>
+								<li><a tabindex="-1" href="#contentsAlignCenter">中央揃え</a></li>
+								<li><a tabindex="-1" href="#contentsAlignRight">右揃え</a></li>
+							</ul>
+						</li>
+						<li><a tabindex="-1" href="#setAbsoluteLayout">絶対配置にする</a></li>
+						<li class="dropdown-submenu">
+							<a tabindex="-1" href="#alignLeft">配置・サイズ</a>
+							<ul class="dropdown-menu">
+								<li><a tabindex="-1" href="#alignLeft">左揃え</a></li>
+								<li><a tabindex="-1" href="#alignCenter">中央揃え</a></li>
+								<li><a tabindex="-1" href="#alignRight">右揃え</a></li>
+								<li class="divider"></li>
+								<li><a tabindex="-1" href="#sameWidth">幅をそろえる</a></li>
+								<li><a tabindex="-1" href="#sameHeight">高さをそろえる</a></li>
+							</ul>
+						</li>
 					</ul>
 					<ul class="breadcrumb nodePath" id="domRelationship"></ul>
 				</div>

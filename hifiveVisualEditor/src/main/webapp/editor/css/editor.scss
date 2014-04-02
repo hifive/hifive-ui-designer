@@ -47,7 +47,7 @@ div {
 /* 	background-color: green; */
 	width: 60%;
 	.pageControl{
-		height: 70px;
+		height: 90px;
 	}
 	.dividerHandler {
 		display: none;
@@ -746,7 +746,7 @@ background: linear-gradient(top, #424242 0%, #787878 50%, #4d4d4d 100%);
 
 .pageControl {
 	width: 100%;
-	height: 5%;
+	//height: 8%;
 	padding: 10px;
 
 	-moz-box-sizing: border-box;
@@ -834,4 +834,14 @@ table.gridOverlay {
 		border: 2px solid red;
 		height: 12px;
 	}
+}
+
+.layouting {
+	background-color: yellow;
+	opacity: 0.3;
+}
+
+
+.bsRow {
+	border: 1px solid green;
 }

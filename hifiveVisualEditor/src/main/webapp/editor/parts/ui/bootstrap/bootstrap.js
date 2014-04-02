@@ -1060,7 +1060,7 @@
 			label: '各ペイン',
 			selector: '> div.tab-content div.tab-pane',
 			type: 'multiple',
-			newItem: '<div class="tab-pane" id=""><p>New Section</p></div>',
+			newItem: '<div class="tab-pane" id=""><div class="row"><p>New Section</p></div></div>',
 			schema: [{
 				label: 'ID属性',
 				selector: '',
@@ -1086,7 +1086,8 @@
 			id: id,
 			palette: 'bootstrap.tab.tabbable',
 			createView: createView,
-			createEditor: editSchema
+			createEditor: editSchema,
+			isBlock: true
 		};
 		hifive.editor.addCreator(creator);
 	})();
@@ -1303,7 +1304,8 @@
 			id: id,
 			palette: 'bootstrap.nav.navLists',
 			createView: createView,
-			createEditor: editSchema
+			createEditor: editSchema,
+			isBlock: true
 		};
 		hifive.editor.addCreator(creator);
 	})();
@@ -1447,7 +1449,8 @@
 			id: id,
 			palette: 'bootstrap.nav.breadcrumbs',
 			createView: createView,
-			createEditor: editSchema
+			createEditor: editSchema,
+			needsSpanWrap: true
 		};
 		hifive.editor.addCreator(creator);
 	})();
@@ -1777,7 +1780,8 @@
 			id: id,
 			palette: 'bootstrap.pageheader.pageHeader',
 			createView: createView,
-			createEditor: editSchema
+			createEditor: editSchema,
+			needsSpanWrap: true
 		};
 		hifive.editor.addCreator(creator);
 	})();

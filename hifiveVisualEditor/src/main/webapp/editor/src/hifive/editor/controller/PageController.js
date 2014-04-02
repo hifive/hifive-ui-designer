@@ -77,6 +77,10 @@
 	var RESIZE_BORDER = 2;
 	var RESIZE_MARGIN = 3;
 
+	var BOOTSTRAP2_COL_WIDTH = 940 / 12;
+	var BOOTSTRAP2_ROW_HEIGHT = 12;
+
+
 	// =========================================================================
 	//
 	// Scoped Privates
@@ -1053,16 +1057,13 @@
 			_layoutBegin: function(context) {
 				var startPos = this._toContainerPos(context.event.pageX, context.event.pageY);
 
+				var BS2_COL_WIDTH = 940 / 12;
+				var BS2_ROW_HEIGHT = 12;
+
+				startPos.x = BS2_COL_WIDTH * parseInt(startPos.x / BS2_COL_WIDTH, 10);
+				startPos.y = BS2_ROW_HEIGHT * parseInt(startPos.y / BS2_ROW_HEIGHT, 10) + 2;
+
 				this._layoutStartPos = startPos;
-
-				//var overlay = this._pageController.createOverlay('layoutGroup');
-
-				//var $root = $(overlay.root);
-
-//				$root.addClass('bsLayoutingOverlay').css({
-//					top: startPos.y,
-//					left: startPos.x
-//				});
 
 				var layoutingOverlayRect = {
 					x: startPos.x,
@@ -1084,46 +1085,146 @@
 				this.layoutingRegion = region;
 
 				this.log.debug('cx={0},cy={1}', startPos.x, startPos.y);
-
-//				var $table = $('<table class="gridOverlay"></table>');
-//				var $tbody = $('<tbody></tbody>');
-//				$table.append($tbody);
-//
-//				var GRID_ROW_AUX_HEIGHT = 12;
-//
-//				for (var i = 0; i < (overlayRect.height / GRID_ROW_AUX_HEIGHT); i++) {
-//					var $tr = $('<tr class="gridRow"></tr>');
-//
-//					for (var j = 0; j < 12; j++) {
-//						$tr.append('<td class="gridCol"></td>');
-//					}
-//					$tbody.append($tr);
-//				}
-//
-//				$regionRoot.append($table);
 			},
 
 			_layoutMove: function(context) {
-				var dx = context.event.dx;
-				var dy = context.event.dy;
-
 				var currentPos = this._toContainerPos(context.event.pageX, context.event.pageY);
 
+				//TODO 負の方向の場合に対応する
 				var w = Math.abs(currentPos.x - this._layoutStartPos.x);
 				var h = Math.abs(currentPos.y - this._layoutStartPos.y);
 
-				this.log.debug('cx={0},cy={1},w={2},h={3}', currentPos.x, currentPos.y, w, h);
+				//Bootstrap2のグリッド幅にスナップする
+				var modW = parseInt(w % BOOTSTRAP2_COL_WIDTH, 10);
+				var modH = parseInt(h % BOOTSTRAP2_ROW_HEIGHT, 10);
+
+				//this.log.debug('cx={0},cy={1},w={2},h={3}', currentPos.x, currentPos.y, w, h);
+
+				var aW = BOOTSTRAP2_COL_WIDTH * parseInt(w / BOOTSTRAP2_COL_WIDTH, 10);
+				var aH = BOOTSTRAP2_ROW_HEIGHT * parseInt(h / BOOTSTRAP2_ROW_HEIGHT, 10);
+
+				if (modW > (BOOTSTRAP2_COL_WIDTH / 2)) {
+					//半分以上行ったら切り上げ
+					aW += BOOTSTRAP2_COL_WIDTH;
+				}
+
+				if (modH > (BOOTSTRAP2_ROW_HEIGHT / 2)) {
+					aH += 12;
+				}
 
 				this.layoutingRegion.$region.css({
-					width: w,
-					height: h
+					width: aW,
+					height: aH
 				});
 			},
 
 			_layoutEnd: function(context) {
+				var currentPos = this._toContainerPos(context.event.pageX, context.event.pageY);
+
+				//TODO 負の方向の場合に対応する
+				var w = Math.abs(currentPos.x - this._layoutStartPos.x);
+				var h = Math.abs(currentPos.y - this._layoutStartPos.y);
+
+				//Bootstrap2のグリッド幅にスナップする
+				var modW = parseInt(w % BOOTSTRAP2_COL_WIDTH, 10);
+				var modH = parseInt(h % BOOTSTRAP2_ROW_HEIGHT, 10);
+
+				//this.log.debug('cx={0},cy={1},w={2},h={3}', currentPos.x, currentPos.y, w, h);
+
+				var aW = BOOTSTRAP2_COL_WIDTH * parseInt(w / BOOTSTRAP2_COL_WIDTH, 10);
+				var aH = 12 * parseInt(h / BOOTSTRAP2_ROW_HEIGHT, 10);
+
+				if (modW > (BOOTSTRAP2_COL_WIDTH / 2)) {
+					//半分以上行ったら切り上げ
+					aW += BOOTSTRAP2_COL_WIDTH;
+				}
+
+				if (modH > (12 / 2)) {
+					aH += 12;
+				}
+
+				if (aW > 20 && aH > 10) {
+					//指定された領域が小さすぎる場合はrowを作成しない
+					this._createRow(aW, aH);
+				}
+
 				this._layoutStartPos = null;
 				this._removeRegion(null, 'layouting', null);
 				this.layoutingRegion = null;
+			},
+
+			_createRow: function(width, height) {
+				var startx = this._layoutStartPos.x;
+				var starty = this._layoutStartPos.y;
+
+				var rootPos = this._pageController._toRootPos(startx, starty);
+
+				var target = this._pageController.getTargetAtPoint(rootPos.x, rootPos.y);
+
+				var elem;
+				if (!target) {
+					elem = $('.container', this._pageController.getDocument())[0];
+				} else {
+					elem = target.element;
+				}
+
+				if (!elem) {
+					return;
+				}
+
+				var offsetColNum = parseInt(startx / BOOTSTRAP2_COL_WIDTH, 10);
+
+				var colNum = parseInt(width / BOOTSTRAP2_COL_WIDTH, 10);
+				var rowNum = parseInt(height / BOOTSTRAP2_ROW_HEIGHT, 10);
+
+				var $elem = $(elem);
+
+				var $containers = $('.container', this._pageController.getDocument());
+
+				var $myRow = $('<div class="row"></div>');
+				//高さをどうするかは課題
+				$myRow.attr(DATA_COMPONENT, 'bootstrap.layout.row');
+
+				var $finalCont = $myRow;
+
+				var $parentRow = $elem.hasClass('row') ? $elem : $elem.parents('.row');
+				if (!$parentRow[0]) {
+					//親にRowが1つもなかったら
+					//					if (colNum === 12) {
+					//						//横いっぱいの場合はネストさせない
+					//						$containers.append($myRow);
+					//					} else {
+					//横いっぱいでない場合はネストを作る
+					var $parentRow = $('<div class="row"></div>');
+					$parentRow.attr(DATA_COMPONENT, 'bootstrap.layout.row');
+
+
+					var $span = $(h5.u.str.format('<div class="span{0}"></div>', colNum));
+					if (offsetColNum > 0) {
+						$span.addClass(h5.u.str.format('offset{0}', offsetColNum));
+					}
+					$containers.append($parentRow);
+					$parentRow.append($span);
+					//$span.append($myRow);
+
+					$finalCont = $span;
+					//					}
+				} else {
+					//親のRowの中に入る
+					var $span = $(h5.u.str.format('<div class="span{0}"></div>', colNum));
+					$($parentRow[0]).append($span);
+					//$span.append($myRow);
+					$finalCont = $span;
+				}
+
+				$finalCont.attr(DATA_COMPONENT, 'bootstrap.layout.span');
+
+				$finalCont.css({
+					minHeight: height
+				});
+
+				this._addOverlay($finalCont[0], this._getOverlayRect($finalCont[0]), null, null,
+						'bsRow');
 			},
 
 			_isLayoutMode: function() {
@@ -1175,7 +1276,7 @@
 					return;
 				}
 
-				var dx = 0,dy = 0;
+				var dx = 0, dy = 0;
 
 				this.log.debug('dir={0},dx={1},dy={2}', direction, sdx, sdy);
 
@@ -1275,12 +1376,152 @@
 				}
 			},
 
+			'[href="#setAbsoluteLayout"] click': function(context) {
+				//				var
+				//
+				//				var $finalCont = attr(DATA_COMPONENT, 'bootstrap.layout.span');
+
+
+				return false;
+			},
+
 			'[href="#remove"] click': function(context) {
+
 				//TODO ContextMenu改良後はselectMenuItemにする
 				this._removeElements();
 
 				return false;
 			},
+
+			'[href="#contentsAlignLeft"] click': function(context) {
+				this._setContentsAlign('left');
+				return false;
+			},
+
+			'[href="#contentsAlignCenter"] click': function(context) {
+				this._setContentsAlign('center');
+				return false;
+			},
+
+			'[href="#contentsAlignRight"] click': function(context) {
+				this._setContentsAlign('right');
+				return false;
+			},
+
+			_setContentsAlign: function(alignment) {
+				var elems = this._pageController.getSelectedElements();
+
+				for (var i = 0, len = elems.length; i < len; i++) {
+					var el = elems[i];
+
+					var $el = $(el);
+
+					$el.css({
+						textAlign: alignment
+					});
+				}
+			},
+
+			'[href="#alignLeft"] click': function(context) {
+				var elems = this._pageController.getSelectedElements();
+				if (elems.length === 0) {
+					return false;
+				}
+
+				var focus = this._pageController.getFocusElement();
+				var $focus = $(focus);
+
+				var left = $focus.offset().left;
+
+				for (var i = 0, len = elems.length; i < len; i++) {
+					var el = elems[i];
+
+					if (el === focus) {
+						continue;
+					}
+
+					var $el = $(el);
+
+					$el.css({
+						position: 'absolute',
+						left: left
+					});
+				}
+
+				this._refresh();
+
+				return false;
+			},
+
+			/**
+			 * 複数の要素をグループ化します。
+			 *
+			 * @param context
+			 * @returns {Boolean}
+			 */
+			'[href="#grouping"] click': function(context) {
+				var elems = this._pageController.getSelectedElements();
+				if (elems.length === 0) {
+					return false;
+				}
+
+				this._grouping(elems);
+
+				return false;
+			},
+
+			_grouping: function(elements) {
+				if (!elements || elements.length === 0) {
+					return;
+				}
+
+				var $groupRoot = $('<div data-h5editor-component="hifive.editor.group"></div>');
+
+				$(elements[0]).parent().append($groupRoot);
+
+				for (var i = 0, len = elements.length; i < len; i++) {
+					var elem = elements[i];
+
+					$(elem).appendTo($groupRoot);
+				}
+
+			},
+
+			'[href="#alignCenter"] click': function(context) {
+				return false;
+			},
+
+			'[href="#alignRight"] click': function(context) {
+				var elems = this._pageController.getSelectedElements();
+				if (elems.length === 0) {
+					return false;
+				}
+
+				var focus = this._pageController.getFocusElement();
+				var $focus = $(focus);
+
+				var left = $focus.offset().left;
+
+				for (var i = 0, len = elems.length; i < len; i++) {
+					var el = elems[i];
+
+					if (el === focus) {
+						continue;
+					}
+
+					var $el = $(el);
+
+					$el.css({
+						position: 'absolute',
+						left: left
+					});
+				}
+
+				this._refresh();
+
+				return false;
+			},
+
 
 			_removeElements: function() {
 				var elemToRemove = this._pageController.getSelectedElements().slice(0);
@@ -1375,7 +1616,7 @@
 				var outerW = $(this._pageContainer).width();
 				var outerH = $(this._pageContainer).height();
 
-				var w,h;
+				var w, h;
 				if (pageCW <= outerW && htmlSW > outerW) {
 					h = pageCH;
 				} else {
@@ -1433,6 +1674,11 @@
 
 			'{document} h5trackmove': function(context) {
 				if (!this._isComponentDragging) {
+					return;
+				}
+
+				if(this._draggingDirection) {
+					//TODO 要素に対する操作系は統一する
 					return;
 				}
 
@@ -1738,11 +1984,14 @@
 
 				var pagePos = this._toPagePos(pageX, pageY);
 
+				//TODO 絶対配置
 				$view.css({
 					position: 'absolute',
-					top: pagePos.y,
-					left: pagePos.x
+					top: BOOTSTRAP2_ROW_HEIGHT * parseInt(pagePos.y / BOOTSTRAP2_ROW_HEIGHT, 10),
+					left: BOOTSTRAP2_COL_WIDTH * parseInt(pagePos.x / BOOTSTRAP2_COL_WIDTH, 10)
 				});
+
+//				this.log.debug('addComponent: pagePos.x={1} left={0}', BOOTSTRAP2_COL_WIDTH * parseInt(pagePos.x / BOOTSTRAP2_COL_WIDTH, 10), pagePos.x);
 
 				var componentAtPoint = selectionMode === hifive.editor.consts.SELECTION_MODE_ELEMENT ? layoutTarget.cell
 						: this._getComponent(pageX, pageY);
@@ -1755,10 +2004,61 @@
 						componentId);
 
 				loadLibPromise.done(this.own(function() {
-					layoutTarget.container.addComponent(this._pageContainer.contentWindow,
-							layoutTarget.container, layoutTarget.cell, componentAtPoint, view,
-							pageX, pageY);
+//										layoutTarget.container.addComponent(this._pageContainer.contentWindow,
+//												layoutTarget.container, layoutTarget.cell, componentAtPoint, view,
+//												pageX, pageY);
 
+					//TODO BS2用
+
+					var target = this.getTargetAtPoint(pageX, pageY);
+					var elem = target.component;
+					var $insertTarget = $(elem);
+
+					var $parentRows = $(elem).parents('[class*="span"]');
+					if (!$insertTarget.is('[class*="span"]') && $parentRows.length === 0) {
+						//rowが全くないところには追加不可
+						return;
+					}
+
+					var $belonging = $($parentRows[0]);
+
+					if ($insertTarget.is('[class*="span"]')) {
+						//行なので、単純追加
+						$insertTarget.append($view);
+
+						$belonging = $insertTarget;
+					} else {
+						//要素の前または後ろに追加
+						var targetOffset = $insertTarget.offset();
+						var targetRootPos = this._toRootPos(targetOffset.left, targetOffset.top);
+
+						var targetH = $insertTarget.innerHeight();
+						if (pageY < targetRootPos.y + targetH / 2) {
+							//前
+							$insertTarget.before($view);
+						} else {
+							$insertTarget.after($view);
+						}
+					}
+
+					var $sizingTarget = $view;
+
+					//					if(creator.needsSpanWrap === true) {
+					//						$view = $view.wrap($.parseHTML('<div></div>'));
+					//						$sizingTarget = $view.parent();
+					//					}
+
+					//					var preferW = $view.width();
+					//					$view.css('width', '');
+
+					//					var maxSpan = parseInt($belonging.width / BOOTSTRAP2_COL_WIDTH, 10);
+					//
+					//					var spanNum = 1 + parseInt(preferW / BOOTSTRAP2_COL_WIDTH, 10);
+					//					if (spanNum > maxSpan) {
+					//						spanNum = maxSpan;
+					//					}
+
+					//$sizingTarget.addClass(h5.u.str.format('span{0}', spanNum));
 				}));
 
 
@@ -1775,6 +2075,18 @@
 				//						pageY);
 
 				this._triggerPageContentsChange();
+			},
+
+			$querySelector: function(selector) {
+				return $(selector, this.getDocument());
+			},
+
+			getElementAt: function(pageX, pageY) {
+				var target = this.getTargetAtPoint(pageX, pageY);
+				if (!target) {
+					return this.$querySelector('body')[0];
+				}
+				return target.element;
 			},
 
 			_loadLibraries: function(doc, creatorId) {
@@ -2362,8 +2674,11 @@
 				var ctop = rootPos.y - pageContainerOffset.top;
 				var cleft = rootPos.x - pageContainerOffset.left;
 
-				var cw = $pageElem.outerWidth();
-				var ch = $pageElem.outerHeight();
+				//				var cw = $pageElem.outerWidth();
+				//				var ch = $pageElem.outerHeight();
+				var cw = $pageElem.innerWidth();
+				var ch = $pageElem.innerHeight();
+
 
 				return {
 					x: cleft,
