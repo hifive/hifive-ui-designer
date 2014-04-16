@@ -1,3 +1,21 @@
+@charset 'utf-8';
+/*
+ * Copyright (C) 2012-2014 NS Solutions Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 /* RESET */
 html,body,div,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,form,p,blockquote,fieldset,input,abbr,article,aside,command,details,figcaption,figure,footer,header,hgroup,mark,meter,nav,output,progress,section,summary,time { margin: 0; padding: 0; }
 h1,h2,h3,h4,h5,h6,pre,code,address,caption,cite,code,em,strong,th,figcaption { font-size: 1em; font-weight: normal; font-style: normal; }
@@ -108,8 +126,8 @@ p.last, ul.last, ol.last, li.last { _width: auto !important; _float: none !impor
 /* TYPE */
 /* body { font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif; background-color: transparent; color: #333; -webkit-font-smoothing: antialiased; } */
 body {
-	font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", "Hiragino Kaku Gothic Pro", "ÉqÉâÉMÉmäpÉS Pro W3", "ÉÅÉCÉäÉI", Meiryo, "ÇlÇr ÇoÉSÉVÉbÉN", Helvetica, Arial, Verdana, sans-serif;
-	*font-family: "Lucida Grande", "ÇlÇr ÇoÉSÉVÉbÉN", "Lucida Sans Unicode", sans-serif; background-color: transparent; color: #333; -webkit-font-smoothing: antialiased;
+	font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", "Hiragino Kaku Gothic Pro", "„Éí„É©„ÇÆ„ÉéËßí„Ç¥ Pro W3", "„É°„Ç§„É™„Ç™", Meiryo, "Ôº≠Ôº≥ Ôº∞„Ç¥„Ç∑„ÉÉ„ÇØ", Helvetica, Arial, Verdana, sans-serif;
+	*font-family: "Lucida Grande", "Ôº≠Ôº≥ Ôº∞„Ç¥„Ç∑„ÉÉ„ÇØ", "Lucida Sans Unicode", sans-serif; background-color: transparent; color: #333; -webkit-font-smoothing: antialiased;
 }
 
 a { color: #08c; }

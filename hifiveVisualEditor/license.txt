@@ -1,0 +1,87 @@
+Unless otherwise stated, all source files are licensed under
+the Apache License, Version 2.0(http://www.apache.org/licenses/LICENSE-2.0).
+
+-----
+Code under:
+src/main/webapp/editor/lib/jquery
+src/main/webapp/editor/res/lib/jquery
+
+jQuery
+URL:http://jquery.com/
+License: MIT license
+		https://jquery.org/license/
+Local Modifications: None.
+
+-----
+Code under:
+src/main/webapp/editor/lib/bootstrap
+src/main/webapp/editor/lib/bootstrap3/3.0.1
+src/main/webapp/editor/res/lib/bootstrap
+
+Bootstrap.js
+URL:https://github.com/twbs/bootstrap/tree/master/js
+License:Apache License
+	http://www.apache.org/licenses/LICENSE-2.0
+Local Modifications: None.
+
+-----
+Code:
+src/main/webapp/editor/css/editor-external.css
+
+URL:http://lea.verou.me/
+License: MIT license
+		https://jquery.org/license/
+Local Modifications: None.
+
+-----
+Code under:
+src/main/webapp/editor/res/lib/jquery.mobile/
+
+jQuery Mobile
+URL:http://jquerymobile.com/
+License:MIT licenses.
+	https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt
+Local Modifications: None.
+
+-----
+Code under:
+src/main/webapp/test/lib/qunit
+
+Qunit
+URL:http://docs.jquery.com/QUnit
+License:MIT licenses
+	https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt
+Local Modifications: None.
+
+-----
+Code under:
+src/main/webapp/test/lib/jstree
+
+jsTree
+URL:http://jstree.com/
+License:Dual licensed under the MIT and GPL licenses:
+  http://www.opensource.org/licenses/mit-license.php
+  http://www.gnu.org/licenses/gpl.html
+
+-----
+Code under:
+src/main/webapp/editor/lib/hifive
+src/main/webapp/editor/res/lib/hifive
+
+hifive
+URL:https://github.com/hifive/hifivemain
+License:Apache License, Version 2.0 (the "License")
+	http://www.apache.org/licenses/LICENSE-2.0
+Local Modifications: None.
+
+-----
+Code under:
+src/main/webapp/editor/lib/DividedBox
+
+hifive-ui-library
+URL:https://github.com/hifive/hifive-ui-library
+License:Apache License, Version 2.0 (the "License")
+	http://www.apache.org/licenses/LICENSE-2.0
+Local Modifications: None.
+
+-----
