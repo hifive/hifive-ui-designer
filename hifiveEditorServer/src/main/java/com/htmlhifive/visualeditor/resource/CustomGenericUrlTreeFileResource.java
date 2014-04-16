@@ -1,7 +1,5 @@
-package com.htmlhifive.visualeditor.resource;
-
 /*
- * Copyright (C) 2012-2013 NS Solutions Corporation
+ * Copyright (C) 2012-2014 NS Solutions Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +14,7 @@ package com.htmlhifive.visualeditor.resource;
  * limitations under the License.
  *
  */
+package com.htmlhifive.visualeditor.resource;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -58,7 +57,7 @@ import com.htmlhifive.resourcefw.resource.file.persister.ContentsPersister;
  * リソースアイテムとしてファイルとそのメタデータ(ファイル名、権限、・・＝urlTreeMetada)を管理する汎用リソース.<br>
  * {@link UrlTreeAuthorizationManager UrlTreeAuthorizationManager}を用いた権限管理、ファイルデータを保存する{@link ContentsPersister
  * Persister}を切り替えることで、 様々な環境におけるファイルストレージリソースとして機能します.
- *
+ * 
  * @author kishigam
  */
 @ResourceClass(name = "files")
@@ -212,7 +211,7 @@ public class CustomGenericUrlTreeFileResource extends GenericUrlTreeFileResource
 
 	/**
 	 * requestヘッダに"base64:true"が設定されている場合は、itemにByteArrayInputStreamを作って格納します.
-	 *
+	 * 
 	 * @param item urlTreeMetadata
 	 * @param requestMessage リクエストメッセージ
 	 */

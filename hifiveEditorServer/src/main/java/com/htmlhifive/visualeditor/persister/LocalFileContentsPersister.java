@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2013 NS Solutions Corporation
+ * Copyright (C) 2012-2014 NS Solutions Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -50,7 +49,7 @@ import com.htmlhifive.resourcefw.resource.file.persister.ContentsPersister;
 
 /**
  * ローカルファイルシステムをストレージとするContentsPersister実装.
- *
+ * 
  * @author kawaguch
  */
 public class LocalFileContentsPersister implements ContentsPersister<InputStream> {
@@ -86,7 +85,7 @@ public class LocalFileContentsPersister implements ContentsPersister<InputStream
 
 	/**
 	 * 初期化処理としてベースパスの存在を確認し、このContentsPersisterを使用可能にします.
-	 *
+	 * 
 	 * @throws IOException
 	 */
 	@PostConstruct
@@ -128,7 +127,7 @@ public class LocalFileContentsPersister implements ContentsPersister<InputStream
 
 	/**
 	 * ファイルデータをストレージからロードします.
-	 *
+	 * 
 	 * @param metadata urlTreeメタデータオブジェクト
 	 * @param ctx urlTreeコンテキストオブジェクト
 	 * @return ロードされたファイルデータ
@@ -157,7 +156,7 @@ public class LocalFileContentsPersister implements ContentsPersister<InputStream
 
 	/**
 	 * ファイルデータをストレージに保存します.
-	 *
+	 * 
 	 * @param metadata ファイルデータを含むurlTreeメタデータオブジェクト
 	 * @param ctx urlTreeコンテキストオブジェクト
 	 */
@@ -189,7 +188,7 @@ public class LocalFileContentsPersister implements ContentsPersister<InputStream
 
 	/**
 	 * ディレクトリデータをストレージから削除します.
-	 *
+	 * 
 	 * @param metadata ディレクトリデータを含むurlTreeメタデータオブジェクト
 	 * @param ctx urlTreeコンテキストオブジェクト
 	 */
@@ -264,7 +263,7 @@ public class LocalFileContentsPersister implements ContentsPersister<InputStream
 
 	/**
 	 * ディレクトリデータをストレージに保存(ディレクトリを作成)します.
-	 *
+	 * 
 	 * @param metadata ディレクトリデータを含むurlTreeメタデータオブジェクト
 	 * @param ctx urlTreeコンテキストオブジェクト
 	 */
@@ -286,7 +285,7 @@ public class LocalFileContentsPersister implements ContentsPersister<InputStream
 
 	/**
 	 * ディレクトリデータをストレージから削除します.
-	 *
+	 * 
 	 * @param metadata ディレクトリデータを含むurlTreeメタデータオブジェクト
 	 * @param ctx urlTreeコンテキストオブジェクト
 	 */
@@ -309,7 +308,7 @@ public class LocalFileContentsPersister implements ContentsPersister<InputStream
 
 	/**
 	 * キー情報だけでロードが可能かどうかを確認し、可能な場合trueを返します.
-	 *
+	 * 
 	 * @param key ファイルデータのキー情報
 	 * @return ロード可能なときtrue
 	 */
@@ -337,7 +336,7 @@ public class LocalFileContentsPersister implements ContentsPersister<InputStream
 
 	/**
 	 * キー情報から実ファイルデータを取得し、それらからメタデータを生成して返します.
-	 *
+	 * 
 	 * @param key ファイルデータのキー情報
 	 * @return キーから生成したメタデータ
 	 */
@@ -369,7 +368,7 @@ public class LocalFileContentsPersister implements ContentsPersister<InputStream
 
 	/**
 	 * 指定されたディレクトリのキー情報から配下のファイルのキー情報リストを返します.
-	 *
+	 * 
 	 * @param key ディレクトリのキー情報
 	 * @param ctx urlTreeコンテキストオブジェクト
 	 * @return キー情報のリスト
@@ -386,7 +385,7 @@ public class LocalFileContentsPersister implements ContentsPersister<InputStream
 
 	/**
 	 * ファイル名(パス)からファイル(Path)オブジェクトを生成します.
-	 *
+	 * 
 	 * @param filename ファイル名
 	 * @return pathオブジェクト
 	 * @throws BadContentException
