@@ -14,14 +14,14 @@
 	<property name="server.resources" value="${server.dir}/src/main/resources" />
 	<property name="server.build.xml" value="${server.dir}/build.xml" />
 	<property name="server.jar" value="${server.dir}/target/hifiveEditorServer.jar" />
-	<property name="ui.components.dir" value="C:/hifive/workspace/hifiveUILibrary/WebContent/components" />
+	<property name="ui.components.dir" value="../../hifive-ui-library/hifive-ui-library/WebContent/components" />
 	<property name="editor.dir" value="${web-content.dir}/editor" />
 	<property name="editor.tmp" value="${web-content.dir}/tmp" />
 	<property name="editor.resources" value="src/main/resources" />
 	<property name="app.name" value="hifiveVisualEditor" />
 
 	<!-- UIのパスの置換用 -->
-	<property name="ui.components.path" value="/hifiveUILibrary/components" />
+	<property name="ui.components.path" value="/hifive-ui-library/components" />
 	<property name="ui.components.editor.path" value="ui/components" />
 	<property name="pageTemplate.dir" value="${build.webapp.dir}/editor/data/pageTemplates" />
 
