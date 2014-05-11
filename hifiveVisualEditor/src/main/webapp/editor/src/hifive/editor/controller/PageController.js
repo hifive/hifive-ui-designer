@@ -1693,7 +1693,7 @@
 					return;
 				}
 
-				if(this._draggingDirection) {
+				if (this._draggingDirection) {
 					//TODO 要素に対する操作系は統一する
 					return;
 				}
@@ -2001,13 +2001,13 @@
 				var pagePos = this._toPagePos(pageX, pageY);
 
 				//TODO 絶対配置
-				$view.css({
-					position: 'absolute',
-					top: BOOTSTRAP2_ROW_HEIGHT * parseInt(pagePos.y / BOOTSTRAP2_ROW_HEIGHT, 10),
-					left: BOOTSTRAP2_COL_WIDTH * parseInt(pagePos.x / BOOTSTRAP2_COL_WIDTH, 10)
-				});
+				//				$view.css({
+				//					position: 'absolute',
+				//					top: BOOTSTRAP2_ROW_HEIGHT * parseInt(pagePos.y / BOOTSTRAP2_ROW_HEIGHT, 10),
+				//					left: BOOTSTRAP2_COL_WIDTH * parseInt(pagePos.x / BOOTSTRAP2_COL_WIDTH, 10)
+				//				});
 
-//				this.log.debug('addComponent: pagePos.x={1} left={0}', BOOTSTRAP2_COL_WIDTH * parseInt(pagePos.x / BOOTSTRAP2_COL_WIDTH, 10), pagePos.x);
+				//				this.log.debug('addComponent: pagePos.x={1} left={0}', BOOTSTRAP2_COL_WIDTH * parseInt(pagePos.x / BOOTSTRAP2_COL_WIDTH, 10), pagePos.x);
 
 				var componentAtPoint = selectionMode === hifive.editor.consts.SELECTION_MODE_ELEMENT ? layoutTarget.cell
 						: this._getComponent(pageX, pageY);
@@ -2020,9 +2020,9 @@
 						componentId);
 
 				loadLibPromise.done(this.own(function() {
-//										layoutTarget.container.addComponent(this._pageContainer.contentWindow,
-//												layoutTarget.container, layoutTarget.cell, componentAtPoint, view,
-//												pageX, pageY);
+					//										layoutTarget.container.addComponent(this._pageContainer.contentWindow,
+					//												layoutTarget.container, layoutTarget.cell, componentAtPoint, view,
+					//												pageX, pageY);
 
 					//TODO BS2用
 
