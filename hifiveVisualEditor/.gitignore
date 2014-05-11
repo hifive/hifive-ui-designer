@@ -1,4 +1,5 @@
 /work
+/build
 /src/main/webapp/WEB-INF/classes
 /src/main/webapp/.#webclasspath
 .sass-cache
