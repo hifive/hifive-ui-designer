@@ -570,12 +570,8 @@
 			//				}), 500);
 			},
 
-			'{document} loadPage': function() {
-				var that = this;
-				//TODO ロード完了後に
-				setTimeout(function() {
-					that._show12Grid();
-				}, 500);
+			'{document} pageinitcomplete': function() {
+				this._show12Grid();
 			},
 
 			_show12Grid: function() {
@@ -1915,6 +1911,8 @@
 									h5.async.when(promise, cssPromise).done(function() {
 										that._triggerPageContentsChange();
 										indicator.hide();
+
+										that.trigger('pageinitcomplete');
 									});
 
 									$(this.contentWindow).on('scroll',
