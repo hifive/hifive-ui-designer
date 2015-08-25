@@ -2024,38 +2024,40 @@
 
 					//TODO BS2用
 
-					var target = this.getTargetAtPoint(pageX, pageY);
-					var elem = target.component;
-					var $insertTarget = $(elem);
-
-					var $parentRows = $(elem).parents('[class*="span"]');
-					if (!$insertTarget.is('[class*="span"]') && $parentRows.length === 0) {
-						//rowが全くないところには追加不可
-						return;
-					}
-
-					var $belonging = $($parentRows[0]);
-
-					if ($insertTarget.is('[class*="span"]')) {
-						//行なので、単純追加
-						$insertTarget.append($view);
-
-						$belonging = $insertTarget;
-					} else {
-						//要素の前または後ろに追加
-						var targetOffset = $insertTarget.offset();
-						var targetRootPos = this._toRootPos(targetOffset.left, targetOffset.top);
-
-						var targetH = $insertTarget.innerHeight();
-						if (pageY < targetRootPos.y + targetH / 2) {
-							//前
-							$insertTarget.before($view);
-						} else {
-							$insertTarget.after($view);
-						}
-					}
-
-					var $sizingTarget = $view;
+					//					var target = this.getTargetAtPoint(pageX, pageY);
+					//					var elem = target.component;
+					//					var $insertTarget = $(elem);
+					//
+					//					var $parentRows = $(elem).parents('[class*="span"]');
+					//					if (!$insertTarget.is('[class*="span"]') && $parentRows.length === 0) {
+					//						// rowの外側の場合、またはbootstrapのクラスが当たっていない場合は
+					//						// ドロップされた要素があればその前後どちらか、
+					//						// 何もないならbodyに追加
+					//						$insertTarget = $(target.element);
+					//					}
+					//
+					//					var $belonging = $($parentRows[0]);
+					//
+					//					if ($insertTarget.is('[class*="span"]') || $insertTarget.is('[class*="col-"]') || $insertTarget.is('body') || $insertTarget.hasClass('layoutCell')) {
+					//						//行なので、単純追加
+					//						$insertTarget.append($view);
+					//
+					//						$belonging = $insertTarget;
+					//					} else {
+					//						//要素の前または後ろに追加
+					//						var targetOffset = $insertTarget.offset();
+					//						var targetRootPos = this._toRootPos(targetOffset.left, targetOffset.top);
+					//
+					//						var targetH = $insertTarget.innerHeight();
+					//						if (pageY < targetRootPos.y + targetH / 2) {
+					//							//前
+					//							$insertTarget.before($view);
+					//						} else {
+					//							$insertTarget.after($view);
+					//						}
+					//					}
+					//
+					//					var $sizingTarget = $view;
 
 					//					if(creator.needsSpanWrap === true) {
 					//						$view = $view.wrap($.parseHTML('<div></div>'));
@@ -2073,6 +2075,19 @@
 					//					}
 
 					//$sizingTarget.addClass(h5.u.str.format('span{0}', spanNum));
+
+
+					// TODO
+					// ドロップ先要素によってその要素の前後に追加するか、中にappendするか、の仕様を決めなくてはいけない。
+					// 一旦、ドロップ先要素が何であれ、そこにappend()するようにしている
+					// (ただし、html要素の場合はbody)
+					var target = this.getTargetAtPoint(pageX, pageY);
+					var elem = target.element;
+					var $insertTarget = $(elem);
+					if ($insertTarget.is('html')) {
+						$insertTarget = $insertTarget.find('body');
+					}
+					$insertTarget.append($view);
 				}));
 
 
